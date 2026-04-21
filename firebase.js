@@ -7,12 +7,12 @@
 // 🔧 PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE
 // Reemplaza estos valores con los de tu proyecto Firebase
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyCuRHygwfHk6l2UP-DNQZRhVdyM33hkpw8",
+    authDomain: "cafe-aroma-b8987.firebaseapp.com",
+    projectId: "cafe-aroma-b8987",
+    storageBucket: "cafe-aroma-b8987.firebasestorage.app",
+    messagingSenderId: "53760085828",
+    appId: "1:53760085828:web:6dbc8d2453612f58c19111"
 };
 
 // Inicializar Firebase
