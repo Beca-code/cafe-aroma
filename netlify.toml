@@ -1,0 +1,97 @@
+# ==========================================
+# NETLIFY.TOML - Configuración de Despliegue
+# Archivo de configuración para Netlify
+# ==========================================
+
+# ==========================================
+# REDIRECCIONES - SPA (Single Page Application)
+# ==========================================
+# Redirigir todas las rutas a index.html para que el enrutamiento
+# del lado del cliente funcione correctamente
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ==========================================
+# CONFIGURACIÓN DE COMPILACIÓN
+# ==========================================
+[build]
+  # Directorio a publicar (raíz del proyecto)
+  publish = "."
+  # Comando de compilación (en este caso no necesitamos)
+  command = ""
+
+# ==========================================
+# CONFIGURACIÓN DE ENCABEZADOS
+# ==========================================
+[[headers]]
+  # Aplicar a todos los archivos
+  for = "/*"
+  
+  [headers.values]
+    # Cache para archivos estáticos
+    Cache-Control = "public, max-age=3600"
+    # Seguridad: Prevenir clickjacking
+    X-Frame-Options = "SAMEORIGIN"
+    # Seguridad: Prevenir MIME-sniffing
+    X-Content-Type-Options = "nosniff"
+    # Seguridad: Habilitar XSS Protection
+    X-XSS-Protection = "1; mode=block"
+    # Política de seguridad de contenido (CSP)
+    Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.googletagmanager.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.ipify.org https://*.firebaseapp.com https://*.firestore.googleapis.com;"
+
+# ==========================================
+# CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS
+# ==========================================
+[[headers]]
+  # Archivos CSS y JS
+  for = "/*.css"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css; charset=utf-8"
+
+[[headers]]
+  for = "/*.js"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/javascript; charset=utf-8"
+
+# ==========================================
+# CONFIGURACIÓN DE HTML
+# ==========================================
+[[headers]]
+  for = "/*.html"
+  
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "text/html; charset=utf-8"
+
+# ==========================================
+# VARIABLES DE ENTORNO (Opcional)
+# ==========================================
+# Si usas variables de entorno en Netlify, descomenta y configura:
+# 
+# [context.production.environment]
+#   FIREBASE_API_KEY = "your_key"
+#   FIREBASE_AUTH_DOMAIN = "your_domain"
+#   FIREBASE_PROJECT_ID = "your_project"
+
+# ==========================================
+# FORMULARIOS DE NETLIFY (Opcional)
+# ==========================================
+# Si planeas usar formularios de Netlify en el futuro
+# [build]
+#   functions = "netlify/functions"
+
+# ==========================================
+# INFORMACIÓN IMPORTANTE PARA DESPLEGAR
+# ==========================================
+# 1. Conecta tu repositorio de GitHub/GitLab a Netlify
+# 2. Configura el comando de build (déjalo en blanco si no hay compilación)
+# 3. Configura el directorio de publicación como "." (raíz del proyecto)
+# 4. Agrega tus variables de entorno de Firebase en la configuración de Netlify
+# 5. Realiza commit y push de tus cambios
+# 6. Netlify desplegará automáticamente

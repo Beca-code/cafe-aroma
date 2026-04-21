@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Café Aroma ☕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <!-- Barra de navegación superior -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h2>☕ Café Aroma - Panel Administrador</h2>
+            <div class="navbar-actions">
+                <span id="userGreeting"></span>
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="admin-main">
+        <!-- Saludo personalizado -->
+        <section class="welcome-section">
+            <h1>Bienvenido, Administrador ☕</h1>
+            <p>Panel de control y auditoría de Café Aroma</p>
+        </section>
+
+        <!-- Información de sesión (prueba de robo de ID) -->
+        <section id="session-info" class="session-info-card">
+            <h3>🔐 Información de Sesión Activa</h3>
+            <div class="session-details">
+                <p><strong>Token de Sesión:</strong></p>
+                <div class="token-display">
+                    <span id="sessionToken">Cargando...</span>
+                    <button onclick="copySessionToken()" class="btn-copy" title="Copiar token">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <p class="session-warning">
+                    ℹ️ <strong>Propósito de prueba:</strong> Si este token se usa en otro navegador, Firebase permitirá la sesión simultánea ya que no bloquea multi-sesión por defecto. Este comportamiento queda registrado en la bitácora.
+                </p>
+            </div>
+        </section>
+
+        <!-- Pestañas de navegación -->
+        <nav class="tabs-navigation">
+            <button class="tab-btn active" data-tab="usuarios">👥 Usuarios Registrados</button>
+            <button class="tab-btn" data-tab="accesos-correctos">✅ Accesos Correctos</button>
+            <button class="tab-btn" data-tab="accesos-fallidos">❌ Accesos Fallidos</button>
+            <button class="tab-btn" data-tab="cierres-sesion">🚪 Cierres de Sesión</button>
+            <button class="tab-btn" data-tab="resumen">📊 Resumen y Análisis</button>
+        </nav>
+
+        <!-- Contenido de pestañas -->
+        
+        <!-- Tab: Usuarios Registrados -->
+        <section id="usuarios-tab" class="tab-content active">
+            <div class="section-card">
+                <h2>👥 Usuarios Registrados</h2>
+                <div class="table-container">
+                    <table id="usuariosTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Fecha de Registro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">Cargando usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Accesos Correctos -->
+        <section id="accesos-correctos-tab" class="tab-content">
+            <div class="section-card">
+                <h2>✅ Bitácora de Accesos Correctos</h2>
+                <div class="table-container">
+                    <table id="accesosCorrectosTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha y Hora</th>
+                                <th>Usuario (Email)</th>
+                                <th>Rol</th>
+                                <th>ID de Sesión</th>
+                                <th>Dirección IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #999;">Cargando registros...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Accesos Fallidos -->
+        <section id="accesos-fallidos-tab" class="tab-content">
+            <div class="section-card">
+                <h2>❌ Bitácora de Accesos Fallidos</h2>
+                <div class="table-container">
+                    <table id="accesosFallidosTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha y Hora</th>
+                                <th>Email Intentado</th>
+                                <th>Motivo</th>
+                                <th>Dirección IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">Cargando registros...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Cierres de Sesión -->
+        <section id="cierres-sesion-tab" class="tab-content">
+            <div class="section-card">
+                <h2>🚪 Bitácora de Cierres de Sesión</h2>
+                <div class="table-container">
+                    <table id="cierresTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha y Hora</th>
+                                <th>Usuario (Email)</th>
+                                <th>Rol</th>
+                                <th>Duración (minutos)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">Cargando registros...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Resumen y Análisis -->
+        <section id="resumen-tab" class="tab-content">
+            <div class="section-card">
+                <h2>📊 Resumen de Auditoría</h2>
+                
+                <!-- Contadores resumen -->
+                <div class="summary-counters">
+                    <div class="counter-card">
+                        <span class="counter-value" id="totalAccesosCorrectos">0</span>
+                        <span class="counter-label">Accesos Correctos</span>
+                    </div>
+                    <div class="counter-card">
+                        <span class="counter-value" id="totalAccesosFallos">0</span>
+                        <span class="counter-label">Accesos Fallidos</span>
+                    </div>
+                    <div class="counter-card">
+                        <span class="counter-value" id="totalCierres">0</span>
+                        <span class="counter-label">Cierres de Sesión</span>
+                    </div>
+                </div>
+
+                <!-- Sección informativa sobre bitácoras -->
+                <div class="info-section">
+                    <h3>❓ ¿Por qué son importantes las bitácoras?</h3>
+                    <div class="advantages-list">
+                        <div class="advantage-card">
+                            <h4>🔍 1. Detección de Intrusiones</h4>
+                            <p>Las bitácoras permiten identificar intentos de acceso no autorizados, patrones anormales y actividades sospechosas en tiempo real o posterior análisis.</p>
+                        </div>
+                        <div class="advantage-card">
+                            <h4>📋 2. Cumplimiento Normativo y Legal</h4>
+                            <p>Muchas regulaciones (GDPR, HIPAA, ISO 27001) requieren mantener registros de auditoría para demostrar conformidad con políticas de seguridad.</p>
+                        </div>
+                        <div class="advantage-card">
+                            <h4>🔐 3. Investigación de Incidentes de Seguridad</h4>
+                            <p>Cuando ocurre un incidente, las bitácoras son fundamentales para reconstruir los eventos, identificar el alcance del compromiso y determinar responsabilidades.</p>
+                        </div>
+                        <div class="advantage-card">
+                            <h4>⚠️ 4. Prevención de Acceso No Autorizado</h4>
+                            <p>Al registrar cada intento de login (exitoso o fallido), se crea una disuasión natural y facilita identificar patrones de ataque de fuerza bruta.</p>
+                        </div>
+                        <div class="advantage-card">
+                            <h4>📊 5. Análisis de Comportamiento y Tendencias</h4>
+                            <p>Las bitácoras permiten analizar patrones de uso, identificar horarios de mayor actividad, detectar anomalías y optimizar políticas de seguridad basadas en datos reales.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script>
+
+    <!-- Scripts locales -->
+    <script src="firebase.js"></script>
+    <script src="bitacora.js"></script>
+    <script src="admin.js"></script>
+
+    <script>
+        // Función para copiar el token de sesión
+        function copySessionToken() {
+            const token = document.getElementById('sessionToken').textContent;
+            if (token && token !== 'Cargando...') {
+                navigator.clipboard.writeText(token).then(() => {
+                    alert('✅ Token copiado al portapapeles');
+                });
+            }
+        }
+
+        // Sistema de pestañas
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                
+                // Cambiar botón activo
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                
+                // Cambiar contenido activo
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.getElementById(tabName + '-tab').classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

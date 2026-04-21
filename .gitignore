@@ -1,0 +1,37 @@
+# ==========================================
+# .GITIGNORE - Archivos a ignorar en Git
+# ==========================================
+
+# Archivos de configuración con credenciales sensibles
+firebase-config.local.js
+.env
+.env.local
+.env.*.local
+
+# Directorios del sistema operativo
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+
+# Dependencias (si agregas npm en el futuro)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Compilados y archivos temporales
+dist/
+build/
+*.log
+*.tmp
+
+# Archivos de editor
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# Archivos de OS
+.env
+.env.local

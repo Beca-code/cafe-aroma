@@ -1,0 +1,537 @@
+<!-- ==========================================
+     GUÍA DE INSTALACIÓN - CAFÉ AROMA
+     Instrucciones paso a paso para comenzar
+     ========================================== -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Instalación - Café Aroma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #FFF8F0 0%, #F5E6C8 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(62, 28, 0, 0.1);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #3E1C00;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #C1440E;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            border-left: 4px solid #C1440E;
+            padding-left: 20px;
+        }
+        
+        .section h2 {
+            color: #C1440E;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .step {
+            background: #FFF8F0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid #C9A84C;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #C1440E;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .step h3 {
+            color: #3E1C00;
+            margin: 10px 0;
+            display: inline;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #C1440E;
+        }
+        
+        .code-block {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .success {
+            background: #E8F5E9;
+            border-left: 3px solid #4CAF50;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #FFF3E0;
+            border-left: 3px solid #FF9800;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .error {
+            background: #FFEBEE;
+            border-left: 3px solid #F44336;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        a {
+            color: #C1440E;
+            text-decoration: none;
+            border-bottom: 1px solid #C1440E;
+        }
+        
+        a:hover {
+            color: #3E1C00;
+            border-bottom-color: #3E1C00;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>☕ Café Aroma</h1>
+        <p class="subtitle">Guía Completa de Instalación y Configuración</p>
+
+        <!-- SECCIÓN 1: REQUISITOS -->
+        <div class="section">
+            <h2>📋 Requisitos Previos</h2>
+            
+            <p>Asegúrate de tener lo siguiente antes de comenzar:</p>
+            
+            <div class="step">
+                <span class="step-number">✓</span>
+                <h3>Navegador Web Moderno</h3>
+                <p>Chrome, Firefox, Safari o Edge (versión reciente)</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">✓</span>
+                <h3>Cuenta de Google</h3>
+                <p>Necesaria para crear un proyecto en Firebase</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">✓</span>
+                <h3>Editor de Código</h3>
+                <p>Visual Studio Code (recomendado) u otro editor de texto</p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">✓</span>
+                <h3>Conexión a Internet</h3>
+                <p>Requerida para Firebase y APIs externas</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: CONFIGURACIÓN DE FIREBASE -->
+        <div class="section">
+            <h2>🔥 Paso 1: Configurar Firebase</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Crear Proyecto en Firebase</h3>
+                <p>
+                    1. Ve a <a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a><br>
+                    2. Haz clic en "Crear proyecto"<br>
+                    3. Dale el nombre "cafe-aroma"<br>
+                    4. Desactiva "Google Analytics" (opcional)<br>
+                    5. Haz clic en "Crear proyecto"
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Habilitar Autenticación</h3>
+                <p>
+                    1. Ve a <strong>Authentication</strong> en el menú izquierdo<br>
+                    2. Haz clic en "Primeros pasos"<br>
+                    3. Selecciona "Email/Contraseña"<br>
+                    4. Habilita la opción<br>
+                    5. Haz clic en "Guardar"
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Crear Base de Datos Firestore</h3>
+                <p>
+                    1. Ve a <strong>Firestore Database</strong><br>
+                    2. Haz clic en "Crear base de datos"<br>
+                    3. Selecciona "Modo de prueba" (para desarrollo inicial)<br>
+                    4. Elige una ubicación cercana<br>
+                    5. Haz clic en "Crear"
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <h3>Obtener Credenciales de Firebase</h3>
+                <p>
+                    1. Haz clic en el ícono de engranaje ⚙️ en la esquina superior izquierda<br>
+                    2. Selecciona "Configuración del proyecto"<br>
+                    3. Ve a la pestaña "General"<br>
+                    4. Desplázate hacia abajo hasta encontrar "Tus apps"<br>
+                    5. Haz clic en "Configuración" de la aplicación Web<br>
+                    6. Copia el objeto <code>firebaseConfig</code>
+                </p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: CREAR COLECCIONES -->
+        <div class="section">
+            <h2>📊 Paso 2: Crear Colecciones en Firestore</h2>
+            
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> Necesitas crear 4 colecciones manualmente en Firestore.
+            </div>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Colección: usuarios</h3>
+                <p>
+                    1. En Firestore, haz clic en "Iniciar colección"<br>
+                    2. Escribe <code>usuarios</code> como ID<br>
+                    3. Haz clic en "Siguiente"<br>
+                    4. Crea un documento de ejemplo (o déjalo vacío por ahora)<br>
+                    <strong>Campos que contendrá:</strong>
+                </p>
+                <ul>
+                    <li><code>nombre</code> (string)</li>
+                    <li><code>email</code> (string)</li>
+                    <li><code>rol</code> (string: "admin" o "usuario")</li>
+                    <li><code>fechaRegistro</code> (timestamp)</li>
+                    <li><code>uid</code> (string)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Colección: bitacora_acceso_correcto</h3>
+                <p>
+                    Repite el proceso anterior con ID: <code>bitacora_acceso_correcto</code><br>
+                    <strong>Campos que contendrá:</strong>
+                </p>
+                <ul>
+                    <li><code>fecha_hora</code> (timestamp)</li>
+                    <li><code>usuario</code> (string)</li>
+                    <li><code>rol</code> (string)</li>
+                    <li><code>id_sesion</code> (string)</li>
+                    <li><code>ip</code> (string)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Colección: bitacora_acceso_fallido</h3>
+                <p>
+                    Repite el proceso anterior con ID: <code>bitacora_acceso_fallido</code><br>
+                    <strong>Campos que contendrá:</strong>
+                </p>
+                <ul>
+                    <li><code>fecha_hora</code> (timestamp)</li>
+                    <li><code>email_intentado</code> (string)</li>
+                    <li><code>motivo</code> (string)</li>
+                    <li><code>ip</code> (string)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <h3>Colección: bitacora_cierre_sesion</h3>
+                <p>
+                    Repite el proceso anterior con ID: <code>bitacora_cierre_sesion</code><br>
+                    <strong>Campos que contendrá:</strong>
+                </p>
+                <ul>
+                    <li><code>fecha_hora</code> (timestamp)</li>
+                    <li><code>usuario</code> (string)</li>
+                    <li><code>rol</code> (string)</li>
+                    <li><code>duracion_sesion</code> (number)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: CONFIGURAR REGLAS -->
+        <div class="section">
+            <h2>🔐 Paso 3: Configurar Reglas de Firestore</h2>
+            
+            <p>Para propósitos de <strong>desarrollo</strong>, usa reglas permisivas:</p>
+            
+            <div class="code-block">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+            </div>
+            
+            <div class="warning">
+                <strong>⚠️ Para Producción:</strong> Usa reglas más restrictivas que validen roles.
+            </div>
+            
+            <p>
+                1. Ve a <strong>Firestore Database</strong><br>
+                2. Haz clic en la pestaña "Reglas"<br>
+                3. Reemplaza el contenido con las reglas anteriores<br>
+                4. Haz clic en "Publicar"
+            </p>
+        </div>
+
+        <!-- SECCIÓN 5: CONFIGURAR PROYECTO -->
+        <div class="section">
+            <h2>⚙️ Paso 4: Configurar el Proyecto Localmente</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Abrir Proyecto en VS Code</h3>
+                <p>
+                    1. Abre Visual Studio Code<br>
+                    2. Ve a Archivo → Abrir carpeta<br>
+                    3. Selecciona la carpeta <code>cafe-aroma</code><br>
+                    4. ✅ El proyecto está listo
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Editar Configuración de Firebase</h3>
+                <p>
+                    1. Abre el archivo <code>firebase.js</code><br>
+                    2. Busca la sección <code>const firebaseConfig = {</code><br>
+                    3. Reemplaza los valores <code>TU_*</code> con tus credenciales de Firebase<br>
+                    4. Guarda el archivo (Ctrl+S)
+                </p>
+                <div class="code-block">const firebaseConfig = {
+    apiKey: "TU_API_KEY",           // → Reemplaza aquí
+    authDomain: "TU_AUTH_DOMAIN",   // → Reemplaza aquí
+    projectId: "TU_PROJECT_ID",     // → Reemplaza aquí
+    // ... más campos
+};</div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Instalar Extensión Live Server (Opcional)</h3>
+                <p>
+                    1. En VS Code, ve a Extensiones (Ctrl+Shift+X)<br>
+                    2. Busca "Live Server"<br>
+                    3. Instala la extensión de Ritwick Dey<br>
+                    4. Haz clic derecho en <code>index.html</code> y selecciona "Open with Live Server"
+                </p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 6: PRUEBAS -->
+        <div class="section">
+            <h2>🧪 Paso 5: Realizar Pruebas</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Crear Cuenta de Prueba</h3>
+                <p>
+                    1. Abre <code>index.html</code> (login)<br>
+                    2. Haz clic en "Regístrate aquí"<br>
+                    3. Crea una cuenta con:<br>
+                    &nbsp;&nbsp;- Email: <code>usuario@example.com</code><br>
+                    &nbsp;&nbsp;- Contraseña: <code>Test1234!</code><br>
+                    4. ✅ Deberías ser redirigido a <code>user.html</code>
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Crear Cuenta de Administrador</h3>
+                <p>
+                    1. Vuelve al login<br>
+                    2. Haz clic en "Regístrate aquí"<br>
+                    3. Crea una cuenta con:<br>
+                    &nbsp;&nbsp;- Email: <code>admin@admin.cafearoma.com</code><br>
+                    &nbsp;&nbsp;- Contraseña: <code>Admin1234!</code><br>
+                    4. ✅ Deberías ser redirigido a <code>admin.html</code>
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Verificar Bitácoras</h3>
+                <p>
+                    1. Inicia sesión como administrador<br>
+                    2. Ve a la pestaña "Accesos Correctos"<br>
+                    3. Deberías ver los registros de login que realizaste<br>
+                    4. Intenta acceder con una contraseña incorrecta y verifica "Accesos Fallidos"
+                </p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 7: DESPLIEGUE -->
+        <div class="section">
+            <h2>🚀 Paso 6: Desplegar en Netlify</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Opción A: Git + Netlify (Recomendado)</h3>
+                <p>
+                    1. Crea un repositorio en <a href="https://github.com" target="_blank">GitHub</a><br>
+                    2. Sube tu proyecto<br>
+                    3. Ve a <a href="https://app.netlify.com" target="_blank">Netlify</a><br>
+                    4. Haz clic en "New site from Git"<br>
+                    5. Selecciona tu repositorio<br>
+                    6. Configure:<br>
+                    &nbsp;&nbsp;- Build command: <code>(dejar en blanco)</code><br>
+                    &nbsp;&nbsp;- Publish directory: <code>.</code><br>
+                    7. Haz clic en "Deploy"
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Opción B: Netlify CLI</h3>
+                <p>
+                    Ejecuta en terminal:
+                </p>
+                <div class="code-block">npm install -g netlify-cli
+netlify login
+netlify deploy --prod --dir=.</div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Opción C: Arrastra y Suelta</h3>
+                <p>
+                    1. Ve a <a href="https://app.netlify.com" target="_blank">Netlify</a><br>
+                    2. Arrastra la carpeta <code>cafe-aroma</code> al área de suelta<br>
+                    3. ✅ Tu sitio estará en vivo en segundos
+                </p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 8: SOLUCIÓN DE PROBLEMAS -->
+        <div class="section">
+            <h2>🐛 Solución de Problemas</h2>
+            
+            <div class="error">
+                <strong>❌ Error: "Firebase is not defined"</strong><br>
+                Solución: Verifica que los scripts de Firebase estén antes de <code>firebase.js</code> en los archivos HTML.
+            </div>
+            
+            <div class="error">
+                <strong>❌ Error: "Las bitácoras no se guardan"</strong><br>
+                Solución: Verifica que las colecciones existan en Firestore y que hayas publicado las reglas.
+            </div>
+            
+            <div class="error">
+                <strong>❌ Error: "Permission denied on Firestore"</strong><br>
+                Solución: Ve a Firestore → Reglas y asegúrate de que permiten lectura/escritura.
+            </div>
+            
+            <div class="error">
+                <strong>❌ Error: "No puedo obtener la IP"</strong><br>
+                Solución: Este error es normal en redes corporativas. La función caerá a "IP no disponible".
+            </div>
+        </div>
+
+        <!-- SECCIÓN 9: SIGUIENTES PASOS -->
+        <div class="section">
+            <h2>📈 Siguientes Pasos</h2>
+            
+            <ul>
+                <li>Personalizar colores editando <code>style.css</code></li>
+                <li>Agregar más elementos al menú de cafetería en <code>user.html</code></li>
+                <li>Implementar carrito de compras en <code>user.js</code></li>
+                <li>Configurar dominio personalizado en Netlify</li>
+                <li>Habilitar HTTPS (automático en Netlify)</li>
+                <li>Implementar recuperación de contraseña</li>
+                <li>Agregar notificaciones por email</li>
+            </ul>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>✅ Guía de Instalación - Café Aroma</p>
+            <p>Si tienes preguntas, consulta el archivo README.md</p>
+        </div>
+    </div>
+</body>
+</html>

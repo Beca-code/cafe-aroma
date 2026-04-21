@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Usuario - Café Aroma ☕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="user-body">
+    <!-- Barra de navegación superior -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <h2>☕ Café Aroma</h2>
+            <div class="navbar-actions">
+                <span id="userGreeting"></span>
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="user-main">
+        <!-- Saludo personalizado -->
+        <section class="welcome-section">
+            <h1>Bienvenido a Café Aroma 🥐</h1>
+            <p>Explora nuestro menú de especialidades</p>
+        </section>
+
+        <!-- Información de sesión -->
+        <section id="session-info" class="session-info-card">
+            <h3>🔐 Información de Sesión</h3>
+            <div class="session-details">
+                <p><strong>Token de Sesión:</strong></p>
+                <div class="token-display">
+                    <span id="sessionToken">Cargando...</span>
+                    <button onclick="copySessionToken()" class="btn-copy" title="Copiar token">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menú de la cafetería -->
+        <section class="menu-section">
+            <h2>☕ Nuestro Menú</h2>
+            <div class="menu-grid">
+                <!-- Bebidas de café -->
+                <div class="menu-category">
+                    <h3>☕ Bebidas de Café</h3>
+                    <div class="menu-items">
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Cappuccino</h4>
+                            <p class="item-description">Espresso con leche vaporizada y espuma cremosa</p>
+                            <span class="item-price">$4.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Latte</h4>
+                            <p class="item-description">Espresso suave con abundante leche caliente</p>
+                            <span class="item-price">$4.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Americano</h4>
+                            <p class="item-description">Espresso diluido en agua caliente, sabor robusto</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Espresso</h4>
+                            <p class="item-description">Café puro y concentrado, tradición italiana</p>
+                            <span class="item-price">$3.00</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Macchiato</h4>
+                            <p class="item-description">Espresso "manchado" con una gota de leche</p>
+                            <span class="item-price">$3.75</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">☕</div>
+                            <h4>Cortado</h4>
+                            <p class="item-description">Café con leche en proporciones iguales</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bebidas de té -->
+                <div class="menu-category">
+                    <h3>🍵 Bebidas de Té</h3>
+                    <div class="menu-items">
+                        <div class="menu-item-card">
+                            <div class="item-icon">🍵</div>
+                            <h4>Té Verde</h4>
+                            <p class="item-description">Té verde fresco con notas herbáceas</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🍵</div>
+                            <h4>Té Negro</h4>
+                            <p class="item-description">Té negro clásico con cuerpo robusto</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🍵</div>
+                            <h4>Chai Latte</h4>
+                            <p class="item-description">Té especiado con leche y espuma</p>
+                            <span class="item-price">$4.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pastelería -->
+                <div class="menu-category">
+                    <h3>🥐 Pastelería</h3>
+                    <div class="menu-items">
+                        <div class="menu-item-card">
+                            <div class="item-icon">🥐</div>
+                            <h4>Croissant</h4>
+                            <p class="item-description">Masa hojaldrada francesa clásica</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🥐</div>
+                            <h4>Croissant de Chocolate</h4>
+                            <p class="item-description">Croissant relleno de chocolate derretido</p>
+                            <span class="item-price">$4.00</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🥐</div>
+                            <h4>Muffin Arándano</h4>
+                            <p class="item-description">Muffin casero con arándanos frescos</p>
+                            <span class="item-price">$3.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🥐</div>
+                            <h4>Brownie Chocolate</h4>
+                            <p class="item-description">Brownie artesanal oscuro y jugoso</p>
+                            <span class="item-price">$3.75</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🥐</div>
+                            <h4>Medialuna</h4>
+                            <p class="item-description">Panificación argentina tradicional</p>
+                            <span class="item-price">$2.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bebidas especiales -->
+                <div class="menu-category">
+                    <h3>🫘 Bebidas Especiales</h3>
+                    <div class="menu-items">
+                        <div class="menu-item-card">
+                            <div class="item-icon">🫘</div>
+                            <h4>Cold Brew</h4>
+                            <p class="item-description">Café preparado en frío durante 12 horas</p>
+                            <span class="item-price">$4.00</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🫘</div>
+                            <h4>Mocha</h4>
+                            <p class="item-description">Espresso con chocolate y leche vaporizada</p>
+                            <span class="item-price">$4.75</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🫘</div>
+                            <h4>Flat White</h4>
+                            <p class="item-description">Espresso con microespuma de leche sedosa</p>
+                            <span class="item-price">$4.50</span>
+                        </div>
+                        <div class="menu-item-card">
+                            <div class="item-icon">🫘</div>
+                            <h4>Affogato</h4>
+                            <p class="item-description">Helado de vainilla cubierto con espresso caliente</p>
+                            <span class="item-price">$5.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección informativa -->
+        <section class="info-section">
+            <h2>ℹ️ Sobre Café Aroma</h2>
+            <p>
+                Café Aroma es una cafetería boutique dedicada a proporcionar las mejores experiencias de café artesanal.
+                Cada bebida es preparada con cuidado por nuestros baristas especializados, utilizando granos de café
+                seleccionados de las mejores regiones del mundo.
+            </p>
+            <p>
+                Nuestro compromiso es ofrecerte no solo un excelente café, sino también un espacio acogedor donde
+                relajarte, trabajar o disfrutar con amigos.
+            </p>
+        </section>
+    </main>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script>
+
+    <!-- Scripts locales -->
+    <script src="firebase.js"></script>
+    <script src="bitacora.js"></script>
+    <script src="user.js"></script>
+
+    <script>
+        // Función para copiar el token de sesión
+        function copySessionToken() {
+            const token = document.getElementById('sessionToken').textContent;
+            if (token && token !== 'Cargando...') {
+                navigator.clipboard.writeText(token).then(() => {
+                    alert('✅ Token copiado al portapapeles');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

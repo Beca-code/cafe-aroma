@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Café Aroma ☕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="register-body">
+    <!-- Contenedor principal de registro -->
+    <div class="register-container">
+        <!-- Tarjeta de registro con glassmorphism -->
+        <div class="register-card">
+            <!-- Logo y título -->
+            <div class="register-header">
+                <h1 class="cafe-logo">☕ Café Aroma</h1>
+                <p class="tagline">Únete a nuestra comunidad</p>
+            </div>
+
+            <!-- Formulario de registro -->
+            <form id="registerForm" class="register-form">
+                <!-- Campo de nombre completo -->
+                <div class="form-group">
+                    <label for="fullName">👤 Nombre Completo</label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        placeholder="Juan Pérez" 
+                        required
+                    >
+                </div>
+
+                <!-- Campo de email -->
+                <div class="form-group">
+                    <label for="registerEmail">📧 Email</label>
+                    <input 
+                        type="email" 
+                        id="registerEmail" 
+                        placeholder="tu@correo.com" 
+                        required
+                    >
+                    <small id="roleIndicator" class="role-indicator">👤 Usuario Regular</small>
+                </div>
+
+                <!-- Campo de contraseña -->
+                <div class="form-group">
+                    <label for="registerPassword">🔐 Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="registerPassword" 
+                        placeholder="Mínimo 8 caracteres" 
+                        required
+                    >
+                    <small id="passwordStrength" class="password-strength"></small>
+                </div>
+
+                <!-- Campo de confirmar contraseña -->
+                <div class="form-group">
+                    <label for="confirmPassword">✓ Confirmar Contraseña</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        placeholder="Repetir contraseña" 
+                        required
+                    >
+                </div>
+
+                <!-- Botón de registro -->
+                <button type="submit" class="btn-register">
+                    <span>Crear Cuenta</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </form>
+
+            <!-- Link para volver a login -->
+            <div class="register-footer">
+                <p>¿Ya tienes cuenta? <a href="index.html" class="link-login">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+
+        <!-- Tarjeta de éxito (inicialmente oculta) -->
+        <div id="successCard" class="success-card hidden">
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <h3>✅ Cuenta Creada Exitosamente</h3>
+                <p>Tu cuenta ha sido registrada. Redirigiendo al login...</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta de error -->
+        <div id="errorCard" class="error-card hidden">
+            <div class="error-content">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>⚠️ Error en Registro</h3>
+                <p id="errorMessage">Hubo un problema</p>
+                <button onclick="closeErrorCard()" class="btn-close-error">Intentar de nuevo</button>
+            </div>
+        </div>
+
+        <!-- Indicador de carga -->
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Creando tu cuenta...</p>
+        </div>
+    </div>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script>
+
+    <!-- Scripts locales -->
+    <script src="firebase.js"></script>
+    <script src="auth.js"></script>
+
+    <script>
+        // Evento al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Validación en tiempo real del rol según email
+            document.getElementById('registerEmail').addEventListener('change', validateRoleIndicator);
+            
+            // Validación de fortaleza de contraseña
+            document.getElementById('registerPassword').addEventListener('input', validatePasswordStrength);
+            
+            // Manejador del formulario de registro
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+        });
+
+        // Función para validar si es admin según email
+        function validateRoleIndicator() {
+            const email = document.getElementById('registerEmail').value;
+            const indicator = document.getElementById('roleIndicator');
+            
+            if (email.includes('@admin.cafearoma.com')) {
+                indicator.textContent = '🔐 Administrador (detectado automáticamente)';
+                indicator.style.color = '#C9A84C';
+            } else {
+                indicator.textContent = '👤 Usuario Regular';
+                indicator.style.color = '#C1440E';
+            }
+        }
+
+        // Función para validar fortaleza de contraseña
+        function validatePasswordStrength() {
+            const password = document.getElementById('registerPassword').value;
+            const strengthIndicator = document.getElementById('passwordStrength');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            
+            if (strength === 0) {
+                strengthIndicator.textContent = '';
+            } else if (strength === 1) {
+                strengthIndicator.textContent = '🔴 Débil';
+                strengthIndicator.style.color = '#C1440E';
+            } else if (strength === 2) {
+                strengthIndicator.textContent = '🟡 Regular';
+                strengthIndicator.style.color = '#C9A84C';
+            } else if (strength === 3) {
+                strengthIndicator.textContent = '🟢 Fuerte';
+                strengthIndicator.style.color = '#4CAF50';
+            } else {
+                strengthIndicator.textContent = '🟢 Muy Fuerte';
+                strengthIndicator.style.color = '#4CAF50';
+            }
+        }
+
+        // Función para cerrar la tarjeta de error
+        function closeErrorCard() {
+            document.getElementById('errorCard').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
