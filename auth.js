@@ -1,22 +1,10 @@
 /* ==========================================
-   AUTH.JS - Lógica de Autenticación
+   AUTH.JS - Lógica de Autenticación con localStorage
    Maneja login, registro, validaciones y sesiones
    ========================================== */
 
 // Variable global para almacenar inicio de sesión
 let sessionStartTime = null;
-
-// Esperar a que Firebase esté disponible
-function waitForFirebase() {
-    return new Promise((resolve) => {
-        const checkFirebase = setInterval(() => {
-            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
-                clearInterval(checkFirebase);
-                resolve();
-            }
-        }, 100);
-    });
-}
 
 // Función para obtener la dirección IP del usuario
 async function getClientIP() {
@@ -36,10 +24,6 @@ async function getClientIP() {
 async function handleLogin(event) {
     event.preventDefault();
 
-    // Esperar a que Firebase esté listo
-    await waitForFirebase();
-
-    // Obtener valores del formulario
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
@@ -47,55 +31,44 @@ async function handleLogin(event) {
     showLoadingSpinner();
 
     try {
-        // Intentar autenticación con Firebase
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
+        // Esperar un poco para simular verificación
+        await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Obtener información del usuario desde Firestore
-        const userDoc = await db.collection('usuarios').doc(user.uid).get();
-        let userRole = 'usuario'; // Rol por defecto
-        let userName = email;
+        // Intentar autenticar
+        const result = db.authenticateUser(email, password);
 
-        if (userDoc.exists) {
-            userRole = userDoc.data().rol || 'usuario';
-            userName = userDoc.data().nombre || email;
-        } else {
-            // Si no existe documento, crear uno
-            const role = email.includes('@admin.cafearoma.com') ? 'admin' : 'usuario';
-            await db.collection('usuarios').doc(user.uid).set({
-                nombre: email.split('@')[0],
-                email: email,
-                rol: role,
-                fechaRegistro: new Date(),
-                uid: user.uid
-            });
-            userRole = role;
+        if (!result.success) {
+            hideLoadingSpinner();
+            
+            // Registrar intento fallido
+            const clientIP = await getClientIP();
+            db.recordAccessFailure(email, result.reason, clientIP);
+            
+            showErrorCard('❌ ' + result.reason);
+            return;
         }
+
+        const user = result.user;
 
         // Guardar información de sesión
         sessionStartTime = new Date();
+        const sessionToken = 'session_' + Math.random().toString(36).substr(2, 16);
+        
         localStorage.setItem('userEmail', email);
-        localStorage.setItem('userRole', userRole);
-        localStorage.setItem('userName', userName);
+        localStorage.setItem('userRole', user.rol);
+        localStorage.setItem('userName', user.nombre);
         localStorage.setItem('userUID', user.uid);
         localStorage.setItem('sessionStartTime', sessionStartTime.getTime());
-        sessionStorage.setItem('sessionToken', user.uid);
+        localStorage.setItem('sessionToken', sessionToken);
 
-        // Registrar acceso exitoso en Firestore
+        // Registrar acceso exitoso
         const clientIP = await getClientIP();
-        await db.collection('bitacora_acceso_correcto').add({
-            fecha_hora: new Date(),
-            usuario: email,
-            rol: userRole,
-            id_sesion: user.uid,
-            ip: clientIP
-        });
+        db.recordAccessSuccess(email, user.rol, sessionToken, clientIP);
 
-        // Mostrar mensaje de éxito temporal
         hideLoadingSpinner();
-        
+
         // Redirigir según rol
-        if (userRole === 'admin') {
+        if (user.rol === 'admin') {
             window.location.href = 'admin.html';
         } else {
             window.location.href = 'user.html';
@@ -103,40 +76,8 @@ async function handleLogin(event) {
 
     } catch (error) {
         hideLoadingSpinner();
-
-        // Manejar diferentes tipos de error
-        let errorMessage = '⚠️ Error desconocido. Intenta de nuevo.';
-        let motivo = 'error desconocido';
-
-        if (error.code === 'auth/user-not-found') {
-            errorMessage = '❌ El usuario no existe. Verifica tu email o regístrate.';
-            motivo = 'usuario no existe';
-        } else if (error.code === 'auth/wrong-password') {
-            errorMessage = '❌ Contraseña incorrecta. Intenta de nuevo.';
-            motivo = 'contraseña incorrecta';
-        } else if (error.code === 'auth/invalid-email') {
-            errorMessage = '❌ Email inválido. Verifica el formato.';
-            motivo = 'email inválido';
-        } else if (error.code === 'auth/too-many-requests') {
-            errorMessage = '⚠️ Demasiados intentos fallidos. Intenta más tarde.';
-            motivo = 'demasiados intentos';
-        }
-
-        // Registrar intento fallido en Firestore
-        const clientIP = await getClientIP();
-        try {
-            await db.collection('bitacora_acceso_fallido').add({
-                fecha_hora: new Date(),
-                email_intentado: document.getElementById('email').value,
-                motivo: motivo,
-                ip: clientIP
-            });
-        } catch (firestoreError) {
-            console.error('Error registrando intento fallido:', firestoreError);
-        }
-
-        // Mostrar tarjeta de error con animación
-        showErrorCard(errorMessage);
+        console.error('Error en login:', error);
+        showErrorCard('⚠️ Error inesperado. Intenta de nuevo.');
     }
 }
 
@@ -146,10 +87,6 @@ async function handleLogin(event) {
 async function handleRegister(event) {
     event.preventDefault();
 
-    // Esperar a que Firebase esté listo
-    await waitForFirebase();
-
-    // Obtener valores del formulario
     const fullName = document.getElementById('fullName').value.trim();
     const email = document.getElementById('registerEmail').value.trim();
     const password = document.getElementById('registerPassword').value;
@@ -174,24 +111,18 @@ async function handleRegister(event) {
     showLoadingSpinner();
 
     try {
-        // Crear usuario en Firebase Auth
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
+        // Esperar un poco para simular procesamiento
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Determinar rol según email
         const role = email.includes('@admin.cafearoma.com') ? 'admin' : 'usuario';
 
-        // Guardar información del usuario en Firestore
-        await db.collection('usuarios').doc(user.uid).set({
-            nombre: fullName,
-            email: email,
-            rol: role,
-            fechaRegistro: new Date(),
-            uid: user.uid
-        });
+        // Crear usuario en la "base de datos"
+        const newUser = db.createUser(email, password, fullName, role);
 
-        // Mostrar tarjeta de éxito
         hideLoadingSpinner();
+        
+        // Mostrar tarjeta de éxito
         document.getElementById('successCard').classList.remove('hidden');
 
         // Redirigir a login después de 2 segundos
@@ -201,21 +132,14 @@ async function handleRegister(event) {
 
     } catch (error) {
         hideLoadingSpinner();
-
-        let errorMessage = '⚠️ Error al crear la cuenta';
-
-        if (error.code === 'auth/email-already-in-use') {
-            errorMessage = '❌ Este email ya está registrado. Inicia sesión o usa otro email.';
-        } else if (error.code === 'auth/weak-password') {
-            errorMessage = '❌ Contraseña muy débil. Usa mayúsculas, números y caracteres especiales.';
-        } else if (error.code === 'auth/invalid-email') {
-            errorMessage = '❌ Email inválido. Verifica el formato.';
-        } else if (error.code === 'auth/operation-not-allowed') {
-            errorMessage = '❌ El registro está deshabilitado. Contacta al administrador.';
-        }
-
-        showErrorCard(errorMessage);
         console.error('Error en registro:', error);
+        
+        let errorMessage = '❌ Error al crear la cuenta';
+        if (error.message.includes('ya está registrado')) {
+            errorMessage = '❌ Este email ya está registrado. Inicia sesión o usa otro email.';
+        }
+        
+        showErrorCard(errorMessage);
     }
 }
 

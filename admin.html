@@ -206,61 +206,44 @@
         </section>
     </main>
 
-    <!-- Scripts de Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script>
-
-    <!-- Scripts locales -->
-    <script src="firebase.js"></script>
+    <!-- Base de datos local -->
+    <script src="database.js"></script>
+    
+    <!-- Scripts de bitácoras y admin -->
     <script src="bitacora.js"></script>
     <script src="admin.js"></script>
 
     <script>
-        // Esperar a que Firebase esté disponible
-        async function initializeAdmin() {
-            let attempts = 0;
-            while ((typeof firebase === 'undefined' || firebase.apps.length === 0) && attempts < 50) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Verificar que sea admin
+            const userRole = localStorage.getItem('userRole');
+            const userEmail = localStorage.getItem('userEmail');
+
+            if (!userEmail || userRole !== 'admin') {
+                window.location.href = 'index.html';
+                return;
             }
 
-            // Verificar acceso de admin
-            verifyAdminAccess().then(userData => {
-                setupAdminGreeting();
+            // Mostrar nombre del usuario
+            setupUserGreeting();
+            displaySessionToken();
+
+            // Cargar todas las bitácoras
+            loadAccesosCorrectos();
+            loadAccesosFallidos();
+            loadCierresSesion();
+            loadSummaryCounters();
+            loadUsuariosRegistrados();
+
+            // Auto-actualizar cada 30 segundos
+            setInterval(() => {
                 loadAccesosCorrectos();
                 loadAccesosFallidos();
                 loadCierresSesion();
                 loadSummaryCounters();
                 loadUsuariosRegistrados();
-                
-                // Auto-actualizar cada 30 segundos
-                setInterval(() => {
-                    loadAccesosCorrectos();
-                    loadAccesosFallidos();
-                    loadCierresSesion();
-                    loadSummaryCounters();
-                    loadUsuariosRegistrados();
-                }, 30000);
-            }).catch(error => {
-                console.error('Error de autorización:', error);
-            });
-        }
-
-        // Función para copiar el token de sesión
-        function copySessionToken() {
-            const token = document.getElementById('sessionToken').textContent;
-            if (token && token !== 'Cargando...') {
-                navigator.clipboard.writeText(token).then(() => {
-                    alert('✅ Token copiado al portapapeles');
-                });
-            }
-        }
-
-        // Sistema de pestañas
-        document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar admin panel
-            initializeAdmin();
+            }, 30000);
 
             // Setup tab buttons
             document.querySelectorAll('.tab-btn').forEach(button => {
@@ -281,6 +264,16 @@
                 });
             });
         });
+
+        // Función para copiar el token de sesión
+        function copySessionToken() {
+            const token = document.getElementById('sessionToken').textContent;
+            if (token && token !== 'Cargando...') {
+                navigator.clipboard.writeText(token).then(() => {
+                    alert('✅ Token copiado al portapapeles');
+                });
+            }
+        }
     </script>
 </body>
 </html>

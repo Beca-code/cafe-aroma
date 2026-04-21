@@ -4,99 +4,16 @@
    ========================================== */
 
 // ==========================================
-// VERIFICAR AUTORIZACIÓN DE USUARIO
+// FUNCIÓN: MOSTRAR INFORMACIÓN DE SESIÓN DEL USUARIO
 // ==========================================
-function verifyUserAccess() {
-    return new Promise((resolve, reject) => {
-        auth.onAuthStateChanged(async user => {
-            if (!user) {
-                window.location.href = 'index.html';
-                reject('No autenticado');
-                return;
-            }
-
-            try {
-                // Obtener documento del usuario
-                const userDoc = await db.collection('usuarios').doc(user.uid).get();
-
-                if (!userDoc.exists) {
-                    // Crear usuario si no existe
-                    const email = user.email;
-                    const role = email.includes('@admin.cafearoma.com') ? 'admin' : 'usuario';
-                    
-                    await db.collection('usuarios').doc(user.uid).set({
-                        nombre: email.split('@')[0],
-                        email: email,
-                        rol: role,
-                        fechaRegistro: new Date(),
-                        uid: user.uid
-                    });
-
-                    resolve({
-                        nombre: email.split('@')[0],
-                        email: email,
-                        rol: role,
-                        uid: user.uid
-                    });
-                } else {
-                    const userData = userDoc.data();
-
-                    // Si es administrador, redirigir a admin.html
-                    if (userData.rol === 'admin') {
-                        window.location.href = 'admin.html';
-                        reject('Usuario es administrador');
-                        return;
-                    }
-
-                    resolve(userData);
-                }
-
-            } catch (error) {
-                console.error('Error verificando acceso usuario:', error);
-                reject(error);
-            }
-        });
-    });
-}
-
-// ==========================================
-// CONFIGURAR SALUDO PERSONALIZADO USUARIO
-// ==========================================
-function setupUserGreeting() {
-    const userName = localStorage.getItem('userName');
-    const userGreeting = document.getElementById('userGreeting');
-
-    if (userGreeting && userName) {
-        userGreeting.textContent = `👋 Hola, ${userName}`;
-    }
-}
-
-// ==========================================
-// MOSTRAR INFORMACIÓN DE SESIÓN DEL USUARIO
-// ==========================================
-function displayUserSessionInfo() {
-    const sessionToken = sessionStorage.getItem('sessionToken');
+function displaySessionToken() {
+    const sessionToken = localStorage.getItem('sessionToken');
     const tokenElement = document.getElementById('sessionToken');
 
     if (tokenElement && sessionToken) {
         tokenElement.textContent = sessionToken;
     }
 }
-
-// ==========================================
-// FUNCIÓN: ACTUALIZAR INFORMACIÓN DEL PERFIL
-// ==========================================
-async function updateUserProfile() {
-    try {
-        const userEmail = localStorage.getItem('userEmail');
-        const userName = localStorage.getItem('userName');
-
-        // Mostrar información del perfil en la consola
-        console.log('📋 Perfil del Usuario:');
-        console.log('  - Email:', userEmail);
-        console.log('  - Nombre:', userName);
-        console.log('  - Rol: Usuario Regular');
-        console.log('  - Token de Sesión:', sessionStorage.getItem('sessionToken'));
 
     } catch (error) {
         console.error('Error actualizando perfil:', error);
