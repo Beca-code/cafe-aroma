@@ -211,6 +211,7 @@
     
     <!-- Scripts de bitácoras y admin -->
     <script src="bitacora.js"></script>
+    <script src="auth.js"></script>
     <script src="admin.js"></script>
 
     <script>
@@ -263,6 +264,9 @@
                     document.getElementById(tabName + '-tab').classList.add('active');
                 });
             });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
         });
 
         // Función para copiar el token de sesión
@@ -270,7 +274,7 @@
             const token = document.getElementById('sessionToken').textContent;
             if (token && token !== 'Cargando...') {
                 navigator.clipboard.writeText(token).then(() => {
-                    alert('✅ Token copiado al portapapeles');
+                    alert('✅ Token copiado al portapapeles. Usa este ID en otro navegador para simular robo de sesión.');
                 });
             }
         }

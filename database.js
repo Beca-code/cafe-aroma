@@ -13,7 +13,16 @@ class CafeAromaDatabase {
     initializeDatabase() {
         if (!localStorage.getItem(this.storageKey)) {
             const emptyDB = {
-                usuarios: [],
+                usuarios: [
+                    {
+                        uid: 'admin_cafearoma_001',
+                        email: 'admin@admin.cafearoma.com',
+                        password: 'Admin123',
+                        nombre: 'Administrador',
+                        rol: 'admin',
+                        fechaRegistro: new Date().toISOString()
+                    }
+                ],
                 bitacora_acceso_correcto: [],
                 bitacora_acceso_fallido: [],
                 bitacora_cierre_sesion: []

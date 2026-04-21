@@ -206,6 +206,7 @@
     
     <!-- Scripts de usuario -->
     <script src="bitacora.js"></script>
+    <script src="auth.js"></script>
     <script src="user.js"></script>
 
     <script>
@@ -223,6 +224,9 @@
             // Mostrar nombre del usuario
             setupUserGreeting();
             displaySessionToken();
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
         });
 
         // Función para copiar el token de sesión
