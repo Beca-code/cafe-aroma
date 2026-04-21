@@ -6,6 +6,18 @@
 // Variable global para almacenar inicio de sesión
 let sessionStartTime = null;
 
+// Esperar a que Firebase esté disponible
+function waitForFirebase() {
+    return new Promise((resolve) => {
+        const checkFirebase = setInterval(() => {
+            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                clearInterval(checkFirebase);
+                resolve();
+            }
+        }, 100);
+    });
+}
+
 // Función para obtener la dirección IP del usuario
 async function getClientIP() {
     try {
@@ -23,6 +35,9 @@ async function getClientIP() {
 // ==========================================
 async function handleLogin(event) {
     event.preventDefault();
+
+    // Esperar a que Firebase esté listo
+    await waitForFirebase();
 
     // Obtener valores del formulario
     const email = document.getElementById('email').value.trim();
@@ -130,6 +145,9 @@ async function handleLogin(event) {
 // ==========================================
 async function handleRegister(event) {
     event.preventDefault();
+
+    // Esperar a que Firebase esté listo
+    await waitForFirebase();
 
     // Obtener valores del formulario
     const fullName = document.getElementById('fullName').value.trim();

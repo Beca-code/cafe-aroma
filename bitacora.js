@@ -4,11 +4,26 @@
    desde Firestore
    ========================================== */
 
+// Esperar a que Firebase esté disponible
+function waitForFirebase() {
+    return new Promise((resolve) => {
+        const checkFirebase = setInterval(() => {
+            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                clearInterval(checkFirebase);
+                resolve();
+            }
+        }, 100);
+    });
+}
+
 // ==========================================
 // FUNCIÓN: CARGAR Y MOSTRAR ACCESOS CORRECTOS
 // ==========================================
 async function loadAccesosCorrectos() {
     try {
+        // Esperar a que Firebase esté listo
+        await waitForFirebase();
+
         const tabla = document.getElementById('accesosCorrectosTable');
         if (!tabla) return;
 
@@ -65,6 +80,9 @@ async function loadAccesosCorrectos() {
 // ==========================================
 async function loadAccesosFallidos() {
     try {
+        // Esperar a que Firebase esté listo
+        await waitForFirebase();
+
         const tabla = document.getElementById('accesosFallidosTable');
         if (!tabla) return;
 
@@ -121,7 +139,8 @@ async function loadAccesosFallidos() {
 // FUNCIÓN: CARGAR Y MOSTRAR CIERRES DE SESIÓN
 // ==========================================
 async function loadCierresSesion() {
-    try {
+    try {        // Esperar a que Firebase esté listo
+        await waitForFirebase();
         const tabla = document.getElementById('cierresTable');
         if (!tabla) return;
 
@@ -211,6 +230,9 @@ async function loadSummaryCounters() {
 // ==========================================
 async function loadUsuariosRegistrados() {
     try {
+        // Esperar a que Firebase esté listo
+        await waitForFirebase();
+
         const tabla = document.getElementById('usuariosTable');
         if (!tabla) return;
 
