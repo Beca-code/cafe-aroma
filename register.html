@@ -114,15 +114,26 @@
 
     <script>
         // Evento al cargar la página
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', function() {
             // Validación en tiempo real del rol según email
-            document.getElementById('registerEmail').addEventListener('change', validateRoleIndicator);
+            const registerEmail = document.getElementById('registerEmail');
+            if (registerEmail) {
+                registerEmail.addEventListener('change', validateRoleIndicator);
+            }
             
             // Validación de fortaleza de contraseña
-            document.getElementById('registerPassword').addEventListener('input', validatePasswordStrength);
+            const registerPassword = document.getElementById('registerPassword');
+            if (registerPassword) {
+                registerPassword.addEventListener('input', validatePasswordStrength);
+            }
             
             // Manejador del formulario de registro
-            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+            } else {
+                console.error('registerForm not found');
+            }
         });
 
         // Función para validar si es admin según email
@@ -169,7 +180,10 @@
 
         // Función para cerrar la tarjeta de error
         function closeErrorCard() {
-            document.getElementById('errorCard').classList.add('hidden');
+            const errorCard = document.getElementById('errorCard');
+            if (errorCard) {
+                errorCard.classList.add('hidden');
+            }
         }
     </script>
 </body>

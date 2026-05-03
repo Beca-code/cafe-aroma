@@ -81,24 +81,33 @@
 
     <script>
         // Evento al cargar la página
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', function() {
             // Verificar si hay sesión activa
-            if (localStorage.getItem('userRole')) {
-                const role = localStorage.getItem('userRole');
-                if (role === 'admin') {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole) {
+                if (userRole === 'admin') {
                     window.location.href = 'admin.html';
-                } else if (role === 'usuario') {
+                } else if (userRole === 'usuario') {
                     window.location.href = 'user.html';
                 }
+                return;
             }
 
             // Manejador del formulario de login
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            } else {
+                console.error('loginForm not found');
+            }
         });
 
         // Función para cerrar la tarjeta de error
         function closeErrorCard() {
-            document.getElementById('errorCard').classList.add('hidden');
+            const errorCard = document.getElementById('errorCard');
+            if (errorCard) {
+                errorCard.classList.add('hidden');
+            }
         }
     </script>
 </body>
