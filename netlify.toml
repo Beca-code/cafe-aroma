@@ -4,14 +4,10 @@
 # ==========================================
 
 # ==========================================
-# REDIRECCIONES - SPA (Single Page Application)
+# REDIRECCIONES - Multi-Page Application
 # ==========================================
-# Redirigir todas las rutas a index.html para que el enrutamiento
-# del lado del cliente funcione correctamente
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# No redirigir rutas - permitir acceso directo a los archivos HTML
+# Este es un proyecto de múltiples páginas HTML, no un SPA
 
 # ==========================================
 # CONFIGURACIÓN DE COMPILACIÓN
