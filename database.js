@@ -21,6 +21,14 @@ class CafeAromaDatabase {
                         nombre: 'Administrador',
                         rol: 'admin',
                         fechaRegistro: new Date().toISOString()
+                    },
+                    {
+                        uid: 'user_prueba_001',
+                        email: 'usuario@example.com',
+                        password: 'Prueba123!',
+                        nombre: 'Usuario de Prueba',
+                        rol: 'usuario',
+                        fechaRegistro: new Date().toISOString()
                     }
                 ],
                 bitacora_acceso_correcto: [],

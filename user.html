@@ -3,10 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Usuario - Café Aroma ☕</title>
+    <title>Panel de Usuario - Café Aroma</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .column {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .column h3 {
+            color: #C1440E;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: Poppins;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: #C1440E;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #A03409;
+            transform: translateY(-2px);
+        }
+        .btn-delete {
+            background: #d9534f;
+        }
+        .btn-delete:hover {
+            background: #c9302c;
+        }
+        .btn-disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .btn-disabled:hover {
+            background: #ccc;
+            transform: none;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+        }
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 15px 0;
+        }
+        .role-admin {
+            background: #d4edda;
+            color: #155724;
+        }
+        .role-user {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .no-permission {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-family: Poppins;
+        }
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body class="user-body">
     <!-- Barra de navegación superior -->
@@ -14,7 +143,7 @@
         <div class="navbar-content">
             <h2>☕ Café Aroma</h2>
             <div class="navbar-actions">
-                <span id="userGreeting"></span>
+                <span id="userGreeting">Cargando...</span>
                 <button id="logoutBtn" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </button>
@@ -24,11 +153,43 @@
 
     <!-- Contenido principal -->
     <main class="user-main">
-        <!-- Saludo personalizado -->
         <section class="welcome-section">
-            <h1>Bienvenido a Café Aroma 🥐</h1>
-            <p>Explora nuestro menú de especialidades</p>
+            <h1>Panel de Control 📊</h1>
+            
+            <!-- Información del Perfil -->
+            <div style="text-align: center; margin: 20px 0;">
+                <p style="font-size: 16px; margin-bottom: 10px;">Tu Perfil:</p>
+                <span id="profileBadge" class="role-badge">Cargando...</span>
+                <p id="permissionsText" style="font-size: 14px; color: #666; margin-top: 10px;"></p>
+            </div>
         </section>
+
+        <!-- DASHBOARD CRUD -->
+        <div class="dashboard-container">
+            <!-- COLUMNA 1: INSERTAR -->
+            <div class="column">
+                <h3>➕ Insertar Información</h3>
+                <div id="insertColumn">
+                    <!-- Se llenará con JavaScript -->
+                </div>
+            </div>
+
+            <!-- COLUMNA 2: ELIMINAR -->
+            <div class="column">
+                <h3>🗑️ Eliminar Información</h3>
+                <div id="deleteColumn">
+                    <!-- Se llenará con JavaScript -->
+                </div>
+            </div>
+
+            <!-- COLUMNA 3: VISUALIZAR -->
+            <div class="column">
+                <h3>👁️ Visualizar Información</h3>
+                <div id="viewColumn">
+                    <!-- Se llenará con JavaScript -->
+                </div>
+            </div>
+        </div>
 
         <!-- Información de sesión -->
         <section id="session-info" class="session-info-card">
@@ -43,201 +204,182 @@
                 </div>
             </div>
         </section>
-
-        <!-- Menú de la cafetería -->
-        <section class="menu-section">
-            <h2>☕ Nuestro Menú</h2>
-            <div class="menu-grid">
-                <!-- Bebidas de café -->
-                <div class="menu-category">
-                    <h3>☕ Bebidas de Café</h3>
-                    <div class="menu-items">
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Cappuccino</h4>
-                            <p class="item-description">Espresso con leche vaporizada y espuma cremosa</p>
-                            <span class="item-price">$4.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Latte</h4>
-                            <p class="item-description">Espresso suave con abundante leche caliente</p>
-                            <span class="item-price">$4.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Americano</h4>
-                            <p class="item-description">Espresso diluido en agua caliente, sabor robusto</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Espresso</h4>
-                            <p class="item-description">Café puro y concentrado, tradición italiana</p>
-                            <span class="item-price">$3.00</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Macchiato</h4>
-                            <p class="item-description">Espresso "manchado" con una gota de leche</p>
-                            <span class="item-price">$3.75</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">☕</div>
-                            <h4>Cortado</h4>
-                            <p class="item-description">Café con leche en proporciones iguales</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bebidas de té -->
-                <div class="menu-category">
-                    <h3>🍵 Bebidas de Té</h3>
-                    <div class="menu-items">
-                        <div class="menu-item-card">
-                            <div class="item-icon">🍵</div>
-                            <h4>Té Verde</h4>
-                            <p class="item-description">Té verde fresco con notas herbáceas</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🍵</div>
-                            <h4>Té Negro</h4>
-                            <p class="item-description">Té negro clásico con cuerpo robusto</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🍵</div>
-                            <h4>Chai Latte</h4>
-                            <p class="item-description">Té especiado con leche y espuma</p>
-                            <span class="item-price">$4.50</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pastelería -->
-                <div class="menu-category">
-                    <h3>🥐 Pastelería</h3>
-                    <div class="menu-items">
-                        <div class="menu-item-card">
-                            <div class="item-icon">🥐</div>
-                            <h4>Croissant</h4>
-                            <p class="item-description">Masa hojaldrada francesa clásica</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🥐</div>
-                            <h4>Croissant de Chocolate</h4>
-                            <p class="item-description">Croissant relleno de chocolate derretido</p>
-                            <span class="item-price">$4.00</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🥐</div>
-                            <h4>Muffin Arándano</h4>
-                            <p class="item-description">Muffin casero con arándanos frescos</p>
-                            <span class="item-price">$3.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🥐</div>
-                            <h4>Brownie Chocolate</h4>
-                            <p class="item-description">Brownie artesanal oscuro y jugoso</p>
-                            <span class="item-price">$3.75</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🥐</div>
-                            <h4>Medialuna</h4>
-                            <p class="item-description">Panificación argentina tradicional</p>
-                            <span class="item-price">$2.50</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bebidas especiales -->
-                <div class="menu-category">
-                    <h3>🫘 Bebidas Especiales</h3>
-                    <div class="menu-items">
-                        <div class="menu-item-card">
-                            <div class="item-icon">🫘</div>
-                            <h4>Cold Brew</h4>
-                            <p class="item-description">Café preparado en frío durante 12 horas</p>
-                            <span class="item-price">$4.00</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🫘</div>
-                            <h4>Mocha</h4>
-                            <p class="item-description">Espresso con chocolate y leche vaporizada</p>
-                            <span class="item-price">$4.75</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🫘</div>
-                            <h4>Flat White</h4>
-                            <p class="item-description">Espresso con microespuma de leche sedosa</p>
-                            <span class="item-price">$4.50</span>
-                        </div>
-                        <div class="menu-item-card">
-                            <div class="item-icon">🫘</div>
-                            <h4>Affogato</h4>
-                            <p class="item-description">Helado de vainilla cubierto con espresso caliente</p>
-                            <span class="item-price">$5.00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección informativa -->
-        <section class="info-section">
-            <h2>ℹ️ Sobre Café Aroma</h2>
-            <p>
-                Café Aroma es una cafetería boutique dedicada a proporcionar las mejores experiencias de café artesanal.
-                Cada bebida es preparada con cuidado por nuestros baristas especializados, utilizando granos de café
-                seleccionados de las mejores regiones del mundo.
-            </p>
-            <p>
-                Nuestro compromiso es ofrecerte no solo un excelente café, sino también un espacio acogedor donde
-                relajarte, trabajar o disfrutar con amigos.
-            </p>
-        </section>
     </main>
 
     <!-- Base de datos local -->
     <script src="database.js"></script>
-    
-    <!-- Scripts de usuario -->
-    <script src="bitacora.js"></script>
     <script src="auth.js"></script>
-    <script src="user.js"></script>
 
     <script>
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Verificar que haya sesión
-            const userEmail = localStorage.getItem('userEmail');
-            const userRole = localStorage.getItem('userRole');
+        // Datos CRUD
+        let crudData = [];
 
+        function initializeCRUD() {
+            const saved = localStorage.getItem('crudData');
+            if (saved) {
+                crudData = JSON.parse(saved);
+            } else {
+                crudData = [
+                    { id: 1, nombre: 'Ejemplo 1', descripcion: 'Primer registro' },
+                    { id: 2, nombre: 'Ejemplo 2', descripcion: 'Segundo registro' }
+                ];
+                saveCRUDData();
+            }
+        }
+
+        function saveCRUDData() {
+            localStorage.setItem('crudData', JSON.stringify(crudData));
+        }
+
+        function setupDashboard() {
+            const userRole = localStorage.getItem('userRole');
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+
+            // Mostrar perfil
+            const profileBadge = document.getElementById('profileBadge');
+            const permissionsText = document.getElementById('permissionsText');
+
+            if (userRole === 'admin') {
+                profileBadge.textContent = '🔐 ADMINISTRADOR';
+                profileBadge.className = 'role-badge role-admin';
+                permissionsText.textContent = 'Tienes acceso total: Insertar, Eliminar y Visualizar';
+            } else {
+                profileBadge.textContent = '👤 USUARIO REGULAR';
+                profileBadge.className = 'role-badge role-user';
+                permissionsText.textContent = 'Solo puedes visualizar información';
+            }
+
+            setupUserGreeting();
+            displaySessionToken();
+
+            // Configurar columnas
+            if (userRole === 'admin') {
+                setupInsertColumn();
+                setupDeleteColumn();
+            } else {
+                document.getElementById('insertColumn').innerHTML = '<div class="no-permission">❌ No tienes permiso para insertar</div>';
+                document.getElementById('deleteColumn').innerHTML = '<div class="no-permission">❌ No tienes permiso para eliminar</div>';
+            }
+
+            setupViewColumn();
+
+            // Botón logout
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        }
+
+        function setupInsertColumn() {
+            const html = `
+                <div class="success" id="insertSuccess">✅ Registro insertado correctamente</div>
+                <form onsubmit="insertRecord(event)">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="inputName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <input type="text" id="inputDesc" required>
+                    </div>
+                    <button type="submit" class="btn">Insertar</button>
+                </form>
+            `;
+            document.getElementById('insertColumn').innerHTML = html;
+        }
+
+        function setupDeleteColumn() {
+            let html = '<div class="success" id="deleteSuccess">✅ Registro eliminado correctamente</div>';
+            if (crudData.length > 0) {
+                html += '<select id="deleteSelect"><option value="">Selecciona un registro...</option>';
+                crudData.forEach(item => {
+                    html += `<option value="${item.id}">${item.nombre}</option>`;
+                });
+                html += '</select>';
+                html += '<button class="btn btn-delete" onclick="deleteRecord()">Eliminar Seleccionado</button>';
+            } else {
+                html += '<p style="color: #666;">No hay registros para eliminar</p>';
+            }
+            document.getElementById('deleteColumn').innerHTML = html;
+        }
+
+        function setupViewColumn() {
+            let html = '';
+            if (crudData.length > 0) {
+                html += '<table class="table"><thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th></tr></thead><tbody>';
+                crudData.forEach(item => {
+                    html += `<tr><td>${item.id}</td><td>${item.nombre}</td><td>${item.descripcion}</td></tr>`;
+                });
+                html += '</tbody></table>';
+            } else {
+                html = '<p style="color: #999; text-align: center;">No hay registros para visualizar</p>';
+            }
+            document.getElementById('viewColumn').innerHTML = html;
+        }
+
+        function insertRecord(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('inputName').value;
+            const descripcion = document.getElementById('inputDesc').value;
+
+            const newId = crudData.length > 0 ? Math.max(...crudData.map(x => x.id)) + 1 : 1;
+            crudData.push({ id: newId, nombre, descripcion });
+
+            saveCRUDData();
+
+            // Mostrar éxito
+            document.getElementById('insertSuccess').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('insertSuccess').style.display = 'none';
+            }, 3000);
+
+            // Limpiar formulario
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputDesc').value = '';
+
+            // Actualizar vista
+            setupDeleteColumn();
+            setupViewColumn();
+        }
+
+        function deleteRecord() {
+            const selectId = document.getElementById('deleteSelect').value;
+            if (!selectId) {
+                alert('Selecciona un registro');
+                return;
+            }
+
+            crudData = crudData.filter(item => item.id != selectId);
+            saveCRUDData();
+
+            // Mostrar éxito
+            document.getElementById('deleteSuccess').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('deleteSuccess').style.display = 'none';
+            }, 3000);
+
+            // Actualizar vista
+            setupDeleteColumn();
+            setupViewColumn();
+        }
+
+        function copySessionToken() {
+            const token = document.getElementById('sessionToken').textContent;
+            if (token && token !== 'Cargando...') {
+                navigator.clipboard.writeText(token);
+                alert('✅ Token copiado');
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = localStorage.getItem('userEmail');
             if (!userEmail) {
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Mostrar nombre del usuario
-            setupUserGreeting();
-            displaySessionToken();
-
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            initializeCRUD();
+            setupDashboard();
         });
-
-        // Función para copiar el token de sesión
-        function copySessionToken() {
-            const token = document.getElementById('sessionToken').textContent;
-            if (token && token !== 'Cargando...') {
-                navigator.clipboard.writeText(token).then(() => {
-                    alert('✅ Token copiado al portapapeles');
-                });
-            }
-        }
     </script>
 </body>
 </html>

@@ -53,6 +53,7 @@
             <button class="tab-btn" data-tab="accesos-correctos">✅ Accesos Correctos</button>
             <button class="tab-btn" data-tab="accesos-fallidos">❌ Accesos Fallidos</button>
             <button class="tab-btn" data-tab="cierres-sesion">🚪 Cierres de Sesión</button>
+            <button class="tab-btn" data-tab="crud">📦 Gestión de Datos (CRUD)</button>
             <button class="tab-btn" data-tab="resumen">📊 Resumen y Análisis</button>
         </nav>
 
@@ -155,6 +156,157 @@
             </div>
         </section>
 
+        <!-- Tab: Gestión CRUD -->
+        <section id="crud-tab" class="tab-content">
+            <div class="section-card">
+                <h2>📦 Gestión de Datos (CRUD)</h2>
+                
+                <style>
+                    .crud-container {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        gap: 20px;
+                        margin-top: 20px;
+                    }
+                    .crud-column {
+                        background: #f9f9f9;
+                        border: 1px solid #e0e0e0;
+                        border-radius: 8px;
+                        padding: 20px;
+                    }
+                    .crud-column h3 {
+                        color: #C1440E;
+                        margin-bottom: 15px;
+                        font-size: 16px;
+                    }
+                    .crud-form-group {
+                        margin-bottom: 12px;
+                    }
+                    .crud-form-group label {
+                        display: block;
+                        margin-bottom: 5px;
+                        font-weight: 600;
+                        font-size: 13px;
+                    }
+                    .crud-form-group input, .crud-form-group select {
+                        width: 100%;
+                        padding: 8px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        font-family: Poppins;
+                        box-sizing: border-box;
+                    }
+                    .crud-btn {
+                        background: #C1440E;
+                        color: white;
+                        padding: 10px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-weight: 600;
+                        width: 100%;
+                        margin-top: 10px;
+                        transition: all 0.3s;
+                    }
+                    .crud-btn:hover {
+                        background: #A03409;
+                        transform: translateY(-2px);
+                    }
+                    .crud-btn-delete {
+                        background: #d9534f;
+                    }
+                    .crud-btn-delete:hover {
+                        background: #c9302c;
+                    }
+                    .crud-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                        font-size: 13px;
+                    }
+                    .crud-table th, .crud-table td {
+                        padding: 8px;
+                        text-align: left;
+                        border-bottom: 1px solid #ddd;
+                    }
+                    .crud-table th {
+                        background: #efefef;
+                        font-weight: 600;
+                    }
+                    .crud-message {
+                        padding: 10px;
+                        border-radius: 4px;
+                        margin-bottom: 10px;
+                        display: none;
+                        font-size: 13px;
+                    }
+                    .crud-message.success {
+                        background: #d4edda;
+                        color: #155724;
+                    }
+                    @media (max-width: 1024px) {
+                        .crud-container {
+                            grid-template-columns: 1fr 1fr;
+                        }
+                    }
+                    @media (max-width: 768px) {
+                        .crud-container {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+
+                <div class="crud-container">
+                    <!-- Columna 1: Insertar -->
+                    <div class="crud-column">
+                        <h3>➕ Insertar Datos</h3>
+                        <div class="crud-message success" id="insertMessage">✅ Registro insertado</div>
+                        <form onsubmit="crudInsert(event)">
+                            <div class="crud-form-group">
+                                <label>Nombre del Registro:</label>
+                                <input type="text" id="crudName" required>
+                            </div>
+                            <div class="crud-form-group">
+                                <label>Descripción:</label>
+                                <input type="text" id="crudDesc" required>
+                            </div>
+                            <button type="submit" class="crud-btn">➕ Insertar</button>
+                        </form>
+                    </div>
+
+                    <!-- Columna 2: Eliminar -->
+                    <div class="crud-column">
+                        <h3>🗑️ Eliminar Datos</h3>
+                        <div class="crud-message success" id="deleteMessage">✅ Registro eliminado</div>
+                        <div class="crud-form-group">
+                            <label>Selecciona un registro:</label>
+                            <select id="crudDeleteSelect">
+                                <option value="">-- Selecciona --</option>
+                            </select>
+                        </div>
+                        <button class="crud-btn crud-btn-delete" onclick="crudDelete()">🗑️ Eliminar</button>
+                    </div>
+
+                    <!-- Columna 3: Visualizar -->
+                    <div class="crud-column">
+                        <h3>👁️ Visualizar Datos</h3>
+                        <table class="crud-table" id="crudViewTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="3" style="text-align: center; color: #999;">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Tab: Resumen y Análisis -->
         <section id="resumen-tab" class="tab-content">
             <div class="section-card">
@@ -215,6 +367,86 @@
     <script src="admin.js"></script>
 
     <script>
+        // Variables globales para CRUD
+        let crudData = [];
+
+        function initializeCRUD() {
+            const saved = localStorage.getItem('crudData');
+            if (saved) {
+                crudData = JSON.parse(saved);
+            } else {
+                crudData = [
+                    { id: 1, nombre: 'Ejemplo 1', descripcion: 'Primer registro' },
+                    { id: 2, nombre: 'Ejemplo 2', descripcion: 'Segundo registro' }
+                ];
+                saveCRUDData();
+            }
+            updateCRUDView();
+        }
+
+        function saveCRUDData() {
+            localStorage.setItem('crudData', JSON.stringify(crudData));
+        }
+
+        function updateCRUDView() {
+            // Actualizar tabla de visualización
+            const tbody = document.querySelector('#crudViewTable tbody');
+            if (crudData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">No hay registros</td></tr>';
+            } else {
+                tbody.innerHTML = crudData.map(item => `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.nombre}</td>
+                        <td>${item.descripcion}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Actualizar select de eliminación
+            const deleteSelect = document.getElementById('crudDeleteSelect');
+            deleteSelect.innerHTML = '<option value="">-- Selecciona --</option>';
+            crudData.forEach(item => {
+                deleteSelect.innerHTML += `<option value="${item.id}">${item.nombre}</option>`;
+            });
+        }
+
+        function crudInsert(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('crudName').value;
+            const desc = document.getElementById('crudDesc').value;
+
+            const newId = crudData.length > 0 ? Math.max(...crudData.map(x => x.id)) + 1 : 1;
+            crudData.push({ id: newId, nombre, descripcion: desc });
+            saveCRUDData();
+
+            document.getElementById('crudName').value = '';
+            document.getElementById('crudDesc').value = '';
+
+            const msg = document.getElementById('insertMessage');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+
+            updateCRUDView();
+        }
+
+        function crudDelete() {
+            const selectId = document.getElementById('crudDeleteSelect').value;
+            if (!selectId) {
+                alert('Selecciona un registro para eliminar');
+                return;
+            }
+
+            crudData = crudData.filter(item => item.id != selectId);
+            saveCRUDData();
+
+            const msg = document.getElementById('deleteMessage');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+
+            updateCRUDView();
+        }
+
         // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', async () => {
             // Verificar que sea admin
@@ -230,6 +462,9 @@
             setupUserGreeting();
             displaySessionToken();
 
+            // Inicializar CRUD
+            initializeCRUD();
+
             // Cargar todas las bitácoras
             loadAccesosCorrectos();
             loadAccesosFallidos();
@@ -244,6 +479,7 @@
                 loadCierresSesion();
                 loadSummaryCounters();
                 loadUsuariosRegistrados();
+                updateCRUDView();
             }, 30000);
 
             // Setup tab buttons
