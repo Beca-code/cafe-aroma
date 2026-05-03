@@ -202,13 +202,11 @@ function setupUserGreeting() {
 // FUNCIÓN: MOSTRAR TOKEN DE SESIÓN
 // ==========================================
 function displaySessionToken() {
-    const sessionToken = sessionStorage.getItem('sessionToken');
+    const sessionToken = localStorage.getItem('sessionToken');
     const tokenElement = document.getElementById('sessionToken');
 
     if (tokenElement && sessionToken) {
-        // Mostrar solo primeros y últimos caracteres
-        const shortToken = sessionToken.substring(0, 20) + '...' + sessionToken.substring(sessionToken.length - 10);
-        tokenElement.textContent = sessionToken; // Mostrar token completo
+        tokenElement.textContent = sessionToken;
     }
 }
 
@@ -227,85 +225,76 @@ async function handleLogout() {
         const userRole = localStorage.getItem('userRole');
         const clientIP = await getClientIP();
 
-        // Registrar cierre de sesión en Firestore
-        await db.collection('bitacora_cierre_sesion').add({
-            fecha_hora: new Date(),
-            usuario: userEmail,
-            rol: userRole,
-            duracion_sesion: durationMinutes
-        });
+        // Registrar cierre de sesión
+        db.recordSessionClose(userEmail, userRole, durationMinutes);
 
-        // Cerrar sesión en Firebase
-        await auth.signOut();
-
-        // Limpiar localStorage y sessionStorage
+        // Limpiar localStorage
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userRole');
         localStorage.removeItem('userName');
         localStorage.removeItem('userUID');
         localStorage.removeItem('sessionStartTime');
-        sessionStorage.removeItem('sessionToken');
+        localStorage.removeItem('sessionToken');
 
         // Redirigir al login
         window.location.href = 'index.html';
 
     } catch (error) {
         console.error('Error al cerrar sesión:', error);
-        alert('Error al cerrar sesión: ' + error.message);
+        alert('Error al cerrar sesión. Por favor, intenta de nuevo.');
+        
+        // Limpiar igualmente en caso de error
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userUID');
+        localStorage.removeItem('sessionStartTime');
+        localStorage.removeItem('sessionToken');
     }
 }
 
 // ==========================================
-// FUNCIÓN: VERIFICAR AUTENTICACIÓN
+// VERIFICAR AUTENTICACIÓN
 // ==========================================
-function checkAuthentication() {
-    auth.onAuthStateChanged(user => {
-        const currentPage = window.location.pathname;
+function verifyPageAccess() {
+    const userEmail = localStorage.getItem('userEmail');
+    const userRole = localStorage.getItem('userRole');
+    const currentPage = window.location.pathname;
 
-        // Si el usuario NO está autenticado
-        if (!user) {
-            // Si está en una página protegida, redirigir a login
-            if (currentPage.includes('admin.html') || currentPage.includes('user.html')) {
-                window.location.href = 'index.html';
-            }
-        } else {
-            // Si el usuario ESTÁ autenticado
-            // Verificar si está en la página correcta según su rol
-            const userRole = localStorage.getItem('userRole');
-
-            if (currentPage.includes('admin.html') && userRole !== 'admin') {
-                window.location.href = 'user.html';
-            } else if (currentPage.includes('user.html') && userRole === 'admin') {
-                window.location.href = 'admin.html';
-            }
-
-            // Mostrar información de sesión
-            setupUserGreeting();
-            displaySessionToken();
+    // Si no está autenticado, redirigir a login
+    if (!userEmail) {
+        if (currentPage.includes('admin.html') || currentPage.includes('user.html')) {
+            window.location.href = 'index.html';
         }
-    });
+        return false;
+    }
+
+    // Verificar acceso según rol
+    if (currentPage.includes('admin.html') && userRole !== 'admin') {
+        window.location.href = 'user.html';
+        return false;
+    }
+
+    return true;
 }
 
 // ==========================================
 // INICIALIZACIÓN GLOBAL
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar autenticación al cargar
-    checkAuthentication();
+    // Verificar autenticación y permisos
+    verifyPageAccess();
+
+    // Mostrar información de usuario si está autenticado
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+        setupUserGreeting();
+        displaySessionToken();
+    }
 
     // Configurar botón de logout si existe
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', handleLogout);
     }
-
-    // Listener para cambios en la autenticación
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            sessionStorage.setItem('sessionToken', user.uid);
-            displaySessionToken();
-        } else {
-            sessionStorage.removeItem('sessionToken');
-        }
-    });
 });
