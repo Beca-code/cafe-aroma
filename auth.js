@@ -27,6 +27,13 @@ async function handleLogin(event) {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
+    // Validar que la base de datos está cargada
+    if (typeof db === 'undefined') {
+        showErrorCard('Error: La base de datos no se cargó correctamente. Recarga la página.');
+        console.error('Database not loaded. db is undefined');
+        return;
+    }
+
     // Mostrar spinner de carga
     showLoadingSpinner();
 
@@ -86,6 +93,13 @@ async function handleLogin(event) {
 // ==========================================
 async function handleRegister(event) {
     event.preventDefault();
+
+    // Validar que la base de datos está cargada
+    if (typeof db === 'undefined') {
+        showErrorCard('Error: La base de datos no se cargó correctamente. Recarga la página.');
+        console.error('Database not loaded. db is undefined');
+        return;
+    }
 
     const fullName = document.getElementById('fullName').value.trim();
     const email = document.getElementById('registerEmail').value.trim();
@@ -215,6 +229,20 @@ function displaySessionToken() {
 // ==========================================
 async function handleLogout() {
     try {
+        // Validar que la base de datos está cargada
+        if (typeof db === 'undefined') {
+            console.error('Database not loaded. db is undefined');
+            // Proceder con logout de todas formas
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userUID');
+            localStorage.removeItem('sessionStartTime');
+            localStorage.removeItem('sessionToken');
+            window.location.href = 'index.html';
+            return;
+        }
+
         // Calcular duración de la sesión
         const startTime = parseInt(localStorage.getItem('sessionStartTime'));
         const endTime = new Date().getTime();
