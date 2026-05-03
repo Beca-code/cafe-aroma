@@ -15,7 +15,7 @@
    
    ========================================== */
 
-// 🔧 EJEMPLO DE CONFIGURACIÓN DE FIREBASE
+// EJEMPLO DE CONFIGURACIÓN DE FIREBASE
 // Reemplaza con los valores de tu proyecto
 const firebaseConfigExample = {
     apiKey: "AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -93,4 +93,4 @@ service cloud.firestore {
 }
 */
 
-console.log("⚠️ Este es un archivo de ejemplo. Usa firebase.js para la configuración real.");
+console.log("Este es un archivo de ejemplo. Usa firebase.js para la configuración real.");

@@ -4,7 +4,7 @@
    con autenticación y Firestore
    ========================================== */
 
-// 🔧 PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE
+// PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE
 // Reemplaza estos valores con los de tu proyecto Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCuRHygwfHk6l2UP-DNQZRhVdyM33hkpw8",
@@ -28,6 +28,6 @@ auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(error => {
 });
 
 // Información de módulos Firebase disponibles
-console.log("✅ Firebase inicializado correctamente");
-console.log("🔐 Auth disponible:", typeof auth !== 'undefined');
-console.log("📊 Firestore disponible:", typeof db !== 'undefined');
+console.log("Firebase inicializado correctamente");
+console.log("Auth disponible:", typeof auth !== 'undefined');
+console.log("Firestore disponible:", typeof db !== 'undefined');

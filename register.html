@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - Café Aroma ☕</title>
+    <title>Registro - Café Aroma</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,7 +15,7 @@
         <div class="register-card">
             <!-- Logo y título -->
             <div class="register-header">
-                <h1 class="cafe-logo">☕ Café Aroma</h1>
+                <h1 class="cafe-logo">Café Aroma</h1>
                 <p class="tagline">Únete a nuestra comunidad</p>
             </div>
 
@@ -23,7 +23,7 @@
             <form id="registerForm" class="register-form">
                 <!-- Campo de nombre completo -->
                 <div class="form-group">
-                    <label for="fullName">👤 Nombre Completo</label>
+                    <label for="fullName">Nombre Completo</label>
                     <input 
                         type="text" 
                         id="fullName" 
@@ -34,19 +34,19 @@
 
                 <!-- Campo de email -->
                 <div class="form-group">
-                    <label for="registerEmail">📧 Email</label>
+                    <label for="registerEmail">Email</label>
                     <input 
                         type="email" 
                         id="registerEmail" 
                         placeholder="tu@correo.com" 
                         required
                     >
-                    <small id="roleIndicator" class="role-indicator">👤 Usuario Regular</small>
+                    <small id="roleIndicator" class="role-indicator">Usuario Regular</small>
                 </div>
 
                 <!-- Campo de contraseña -->
                 <div class="form-group">
-                    <label for="registerPassword">🔐 Contraseña</label>
+                    <label for="registerPassword">Contraseña</label>
                     <input 
                         type="password" 
                         id="registerPassword" 
@@ -58,7 +58,7 @@
 
                 <!-- Campo de confirmar contraseña -->
                 <div class="form-group">
-                    <label for="confirmPassword">✓ Confirmar Contraseña</label>
+                    <label for="confirmPassword">Confirmar Contraseña</label>
                     <input 
                         type="password" 
                         id="confirmPassword" 
@@ -84,7 +84,7 @@
         <div id="successCard" class="success-card hidden">
             <div class="success-content">
                 <i class="fas fa-check-circle"></i>
-                <h3>✅ Cuenta Creada Exitosamente</h3>
+                <h3>Cuenta Creada Exitosamente</h3>
                 <p>Tu cuenta ha sido registrada. Redirigiendo al login...</p>
             </div>
         </div>
@@ -93,7 +93,7 @@
         <div id="errorCard" class="error-card hidden">
             <div class="error-content">
                 <i class="fas fa-exclamation-circle"></i>
-                <h3>⚠️ Error en Registro</h3>
+                <h3>Error en Registro</h3>
                 <p id="errorMessage">Hubo un problema</p>
                 <button onclick="closeErrorCard()" class="btn-close-error">Intentar de nuevo</button>
             </div>
@@ -131,10 +131,10 @@
             const indicator = document.getElementById('roleIndicator');
             
             if (email.includes('@admin.cafearoma.com')) {
-                indicator.textContent = '🔐 Administrador (detectado automáticamente)';
+                indicator.textContent = 'Administrador (detectado automáticamente)';
                 indicator.style.color = '#C9A84C';
             } else {
-                indicator.textContent = '👤 Usuario Regular';
+                indicator.textContent = 'Usuario Regular';
                 indicator.style.color = '#C1440E';
             }
         }
@@ -153,16 +153,16 @@
             if (strength === 0) {
                 strengthIndicator.textContent = '';
             } else if (strength === 1) {
-                strengthIndicator.textContent = '🔴 Débil';
+                strengthIndicator.textContent = 'Débil';
                 strengthIndicator.style.color = '#C1440E';
             } else if (strength === 2) {
-                strengthIndicator.textContent = '🟡 Regular';
+                strengthIndicator.textContent = 'Regular';
                 strengthIndicator.style.color = '#C9A84C';
             } else if (strength === 3) {
-                strengthIndicator.textContent = '🟢 Fuerte';
+                strengthIndicator.textContent = 'Fuerte';
                 strengthIndicator.style.color = '#4CAF50';
             } else {
-                strengthIndicator.textContent = '🟢 Muy Fuerte';
+                strengthIndicator.textContent = 'Muy Fuerte';
                 strengthIndicator.style.color = '#4CAF50';
             }
         }

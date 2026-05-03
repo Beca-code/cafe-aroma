@@ -23,7 +23,7 @@ function setupUserGreeting() {
     const userGreeting = document.getElementById('userGreeting');
 
     if (userGreeting && userName) {
-        userGreeting.textContent = `� ${userName} (Administrador)`;
+        userGreeting.textContent = ` ${userName} (Administrador)`;
     }
 }
 
@@ -47,11 +47,11 @@ function exportarBitacoraCSV() {
         link.click();
         document.body.removeChild(link);
 
-        alert('✅ Bitácora exportada exitosamente');
+        alert('Bitácora exportada exitosamente');
 
     } catch (error) {
         console.error('Error al exportar:', error);
-        alert('❌ Error al exportar bitácora');
+        alert('Error al exportar bitácora');
     }
 }
 
@@ -59,7 +59,7 @@ function exportarBitacoraCSV() {
 // FUNCIÓN: LIMPIAR BITÁCORA
 // ==========================================
 function limpiarBitacora() {
-    const confirmacion = confirm('⚠️ ¿Estás seguro de que deseas limpiar TODA la bitácora? Esta acción no se puede deshacer.');
+    const confirmacion = confirm('¿Estás seguro de que deseas limpiar TODA la bitácora? Esta acción no se puede deshacer.');
 
     if (!confirmacion) {
         return;
@@ -67,7 +67,7 @@ function limpiarBitacora() {
 
     try {
         db.clearLogs();
-        alert('✅ Bitácora limpiada exitosamente');
+        alert('Bitácora limpiada exitosamente');
         
         // Recargar todas las bitácoras
         loadAccesosCorrectos();
@@ -77,7 +77,7 @@ function limpiarBitacora() {
 
     } catch (error) {
         console.error('Error limpiando bitácora:', error);
-        alert('❌ Error al limpiar la bitácora');
+        alert('Error al limpiar la bitácora');
     }
 }
 

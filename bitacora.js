@@ -39,7 +39,7 @@ async function loadAccesosCorrectos() {
                 <tr>
                     <td>${fechaFormato}</td>
                     <td>${log.usuario}</td>
-                    <td>${log.rol === 'admin' ? '🔐 Admin' : '👤 Usuario'}</td>
+                    <td>${log.rol === 'admin' ? 'Admin' : 'Usuario'}</td>
                     <td style="font-size: 11px; font-family: monospace; background: #f5f5f5; padding: 4px; border-radius: 3px; word-break: break-all;">${log.id_sesion}</td>
                     <td>${log.ip}</td>
                 </tr>
@@ -88,7 +88,7 @@ async function loadAccesosFallidos() {
                 <tr>
                     <td>${fechaFormato}</td>
                     <td>${log.email_intentado}</td>
-                    <td>❌ ${log.motivo}</td>
+                    <td>${log.motivo}</td>
                     <td>${log.ip}</td>
                 </tr>
             `;
@@ -136,7 +136,7 @@ async function loadCierresSesion() {
                 <tr>
                     <td>${fechaFormato}</td>
                     <td>${log.usuario}</td>
-                    <td>${log.rol === 'admin' ? '🔐 Admin' : '👤 Usuario'}</td>
+                    <td>${log.rol === 'admin' ? 'Admin' : 'Usuario'}</td>
                     <td>${log.duracion_sesion} min</td>
                 </tr>
             `;
@@ -205,7 +205,7 @@ async function loadUsuariosRegistrados() {
                 <tr>
                     <td>${user.nombre}</td>
                     <td>${user.email}</td>
-                    <td>${user.rol === 'admin' ? '🔐 Administrador' : '👤 Usuario'}</td>
+                    <td>${user.rol === 'admin' ? 'Administrador' : 'Usuario'}</td>
                     <td>${fechaFormato}</td>
                 </tr>
             `;

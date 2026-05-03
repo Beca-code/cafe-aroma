@@ -141,7 +141,7 @@
     <!-- Barra de navegación superior -->
     <nav class="navbar">
         <div class="navbar-content">
-            <h2>☕ Café Aroma</h2>
+            <h2>Café Aroma</h2>
             <div class="navbar-actions">
                 <span id="userGreeting">Cargando...</span>
                 <button id="logoutBtn" class="btn-logout">
@@ -154,7 +154,7 @@
     <!-- Contenido principal -->
     <main class="user-main">
         <section class="welcome-section">
-            <h1>Panel de Control 📊</h1>
+            <h1>Panel de Control</h1>
             
             <!-- Información del Perfil -->
             <div style="text-align: center; margin: 20px 0;">
@@ -168,7 +168,7 @@
         <div class="dashboard-container">
             <!-- COLUMNA 1: INSERTAR -->
             <div class="column">
-                <h3>➕ Insertar Información</h3>
+                <h3>Insertar Información</h3>
                 <div id="insertColumn">
                     <!-- Se llenará con JavaScript -->
                 </div>
@@ -176,7 +176,7 @@
 
             <!-- COLUMNA 2: ELIMINAR -->
             <div class="column">
-                <h3>🗑️ Eliminar Información</h3>
+                <h3>Eliminar Información</h3>
                 <div id="deleteColumn">
                     <!-- Se llenará con JavaScript -->
                 </div>
@@ -184,7 +184,7 @@
 
             <!-- COLUMNA 3: VISUALIZAR -->
             <div class="column">
-                <h3>👁️ Visualizar Información</h3>
+                <h3>Visualizar Información</h3>
                 <div id="viewColumn">
                     <!-- Se llenará con JavaScript -->
                 </div>
@@ -193,7 +193,7 @@
 
         <!-- Información de sesión -->
         <section id="session-info" class="session-info-card">
-            <h3>🔐 Información de Sesión</h3>
+            <h3>Información de Sesión</h3>
             <div class="session-details">
                 <p><strong>Token de Sesión:</strong></p>
                 <div class="token-display">
@@ -241,11 +241,11 @@
             const permissionsText = document.getElementById('permissionsText');
 
             if (userRole === 'admin') {
-                profileBadge.textContent = '🔐 ADMINISTRADOR';
+                profileBadge.textContent = 'ADMINISTRADOR';
                 profileBadge.className = 'role-badge role-admin';
                 permissionsText.textContent = 'Tienes acceso total: Insertar, Eliminar y Visualizar';
             } else {
-                profileBadge.textContent = '👤 USUARIO REGULAR';
+                profileBadge.textContent = 'USUARIO REGULAR';
                 profileBadge.className = 'role-badge role-user';
                 permissionsText.textContent = 'Solo puedes visualizar información';
             }
@@ -258,8 +258,8 @@
                 setupInsertColumn();
                 setupDeleteColumn();
             } else {
-                document.getElementById('insertColumn').innerHTML = '<div class="no-permission">❌ No tienes permiso para insertar</div>';
-                document.getElementById('deleteColumn').innerHTML = '<div class="no-permission">❌ No tienes permiso para eliminar</div>';
+                document.getElementById('insertColumn').innerHTML = '<div class="no-permission">No tienes permiso para insertar</div>';
+                document.getElementById('deleteColumn').innerHTML = '<div class="no-permission">No tienes permiso para eliminar</div>';
             }
 
             setupViewColumn();
@@ -270,7 +270,7 @@
 
         function setupInsertColumn() {
             const html = `
-                <div class="success" id="insertSuccess">✅ Registro insertado correctamente</div>
+                <div class="success" id="insertSuccess">Registro insertado correctamente</div>
                 <form onsubmit="insertRecord(event)">
                     <div class="form-group">
                         <label>Nombre:</label>
@@ -287,7 +287,7 @@
         }
 
         function setupDeleteColumn() {
-            let html = '<div class="success" id="deleteSuccess">✅ Registro eliminado correctamente</div>';
+            let html = '<div class="success" id="deleteSuccess">Registro eliminado correctamente</div>';
             if (crudData.length > 0) {
                 html += '<select id="deleteSelect"><option value="">Selecciona un registro...</option>';
                 crudData.forEach(item => {
@@ -365,7 +365,7 @@
             const token = document.getElementById('sessionToken').textContent;
             if (token && token !== 'Cargando...') {
                 navigator.clipboard.writeText(token);
-                alert('✅ Token copiado');
+                alert('Token copiado');
             }
         }
 

@@ -44,7 +44,7 @@ async function handleLogin(event) {
             const clientIP = await getClientIP();
             db.recordAccessFailure(email, result.reason, clientIP);
             
-            showErrorCard('❌ ' + result.reason);
+            showErrorCard(result.reason);
             return;
         }
 
@@ -77,7 +77,7 @@ async function handleLogin(event) {
     } catch (error) {
         hideLoadingSpinner();
         console.error('Error en login:', error);
-        showErrorCard('⚠️ Error inesperado. Intenta de nuevo.');
+        showErrorCard('Error inesperado. Intenta de nuevo.');
     }
 }
 
@@ -94,17 +94,17 @@ async function handleRegister(event) {
 
     // Validaciones
     if (password !== confirmPassword) {
-        showErrorCard('❌ Las contraseñas no coinciden');
+        showErrorCard('Las contraseñas no coinciden');
         return;
     }
 
     if (password.length < 8) {
-        showErrorCard('❌ La contraseña debe tener al menos 8 caracteres');
+        showErrorCard('La contraseña debe tener al menos 8 caracteres');
         return;
     }
 
     if (fullName.length < 3) {
-        showErrorCard('❌ El nombre debe tener al menos 3 caracteres');
+        showErrorCard('El nombre debe tener al menos 3 caracteres');
         return;
     }
 
@@ -134,9 +134,9 @@ async function handleRegister(event) {
         hideLoadingSpinner();
         console.error('Error en registro:', error);
         
-        let errorMessage = '❌ Error al crear la cuenta';
+        let errorMessage = 'Error al crear la cuenta';
         if (error.message.includes('ya está registrado')) {
-            errorMessage = '❌ Este email ya está registrado. Inicia sesión o usa otro email.';
+            errorMessage = 'Este email ya está registrado. Inicia sesión o usa otro email.';
         }
         
         showErrorCard(errorMessage);
@@ -191,9 +191,9 @@ function setupUserGreeting() {
 
     if (userGreeting && userName) {
         if (userRole === 'admin') {
-            userGreeting.textContent = `👋 Hola, ${userName} (Administrador)`;
+            userGreeting.textContent = `Hola, ${userName} (Administrador)`;
         } else {
-            userGreeting.textContent = `👋 Hola, ${userName}`;
+            userGreeting.textContent = `Hola, ${userName}`;
         }
     }
 }

@@ -31,7 +31,7 @@ function loadUserPreferences() {
         notificaciones: localStorage.getItem('userNotifications') !== 'false'
     };
 
-    console.log('⚙️ Preferencias del Usuario:', preferences);
+    console.log('Preferencias del Usuario:', preferences);
 
     return preferences;
 }
@@ -44,7 +44,7 @@ function saveUserPreferences(preferencias) {
     localStorage.setItem('userTheme', preferencias.tema);
     localStorage.setItem('userNotifications', preferencias.notificaciones);
 
-    console.log('✅ Preferencias guardadas');
+    console.log('Preferencias guardadas');
 }
 
 // ==========================================
@@ -77,7 +77,7 @@ function displayUserStats() {
     const sessionInfo = getSessionInfo();
 
     if (sessionInfo) {
-        console.log('📊 Estadísticas de Sesión:');
+        console.log('Estadísticas de Sesión:');
         console.log('  - Inicio:', sessionInfo.inicio);
         console.log('  - Duración:', sessionInfo.duracion);
         console.log('  - Email:', sessionInfo.email);
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Verificar que el usuario tenga acceso
     verifyUserAccess()
         .then(userData => {
-            console.log('✅ Acceso de usuario verificado:', userData.nombre);
+            console.log('Acceso de usuario verificado:', userData.nombre);
             
             // Configurar interfaz
             setupUserGreeting();
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 60000);
         })
         .catch(error => {
-            console.error('❌ Error de autorización:', error);
+            console.error('Error de autorización:', error);
             // No redirigir automáticamente, permitir que el usuario vea el error
         });
 
@@ -126,7 +126,7 @@ function setupMenuEvents() {
             const nombre = this.querySelector('h4').textContent;
             const precio = this.querySelector('.item-price').textContent;
 
-            console.log('🛒 Producto seleccionado:', nombre, '-', precio);
+            console.log('Producto seleccionado:', nombre, '-', precio);
             
             // Aquí se podría agregar una funcionalidad de carrito si fuera necesario
         });
@@ -145,8 +145,8 @@ function agregarAlCarrito(nombreProducto, precio) {
         timestamp: new Date()
     });
 
-    console.log('✅ Agregado al carrito:', nombreProducto);
-    console.log('🛒 Total en carrito:', carrito.length, 'productos');
+    console.log('Agregado al carrito:', nombreProducto);
+    console.log('Total en carrito:', carrito.length, 'productos');
 
     return carrito;
 }
@@ -156,12 +156,12 @@ function agregarAlCarrito(nombreProducto, precio) {
 // ==========================================
 function verCarrito() {
     if (carrito.length === 0) {
-        console.log('🛒 El carrito está vacío');
+        console.log('El carrito está vacío');
         return;
     }
 
     let total = 0;
-    console.log('🛒 Contenido del carrito:');
+    console.log('Contenido del carrito:');
     
     carrito.forEach((item, index) => {
         const precioNum = parseFloat(item.precio.replace('$', ''));
@@ -169,7 +169,7 @@ function verCarrito() {
         console.log(`  ${index + 1}. ${item.nombre} - ${item.precio}`);
     });
 
-    console.log('💰 Total:', '$' + total.toFixed(2));
+    console.log('Total:', '$' + total.toFixed(2));
     return carrito;
 }
 
@@ -178,7 +178,7 @@ function verCarrito() {
 // ==========================================
 function limpiarCarrito() {
     carrito = [];
-    console.log('🗑️ Carrito limpiado');
+    console.log('Carrito limpiado');
 }
 
 // ==========================================
