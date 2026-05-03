@@ -258,7 +258,7 @@
 
                 <div class="crud-container">
                     <!-- Columna 1: Insertar -->
-                    <div class="crud-column" id="admin-columna-insertar">
+                    <div class="crud-column">
                         <h3>Insertar Datos</h3>
                         <div class="crud-message success" id="insertMessage">Registro insertado</div>
                         <form onsubmit="crudInsert(event)">
@@ -275,7 +275,7 @@
                     </div>
 
                     <!-- Columna 2: Eliminar -->
-                    <div class="crud-column" id="admin-columna-eliminar">
+                    <div class="crud-column">
                         <h3>Eliminar Datos</h3>
                         <div class="crud-message success" id="deleteMessage">Registro eliminado</div>
                         <div class="crud-form-group">
@@ -447,17 +447,8 @@
             updateCRUDView();
         }
 
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Verificar que sea admin
-            const userRole = localStorage.getItem('userRole');
-            const userEmail = localStorage.getItem('userEmail');
-
-            if (!userEmail || userRole !== 'admin') {
-                window.location.href = 'index.html';
-                return;
-            }
-
+        // Inicializar cuando el usuario es admin
+        function initializeAdminDashboard() {
             // Mostrar nombre del usuario
             setupUserGreeting();
             displaySessionToken();
@@ -502,8 +493,11 @@
             });
 
             // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-        });
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+        }
 
         // Función para copiar el token de sesión
         function copySessionToken() {

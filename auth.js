@@ -283,13 +283,35 @@ function verifyPageAccess() {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     // Verificar autenticación y permisos
-    verifyPageAccess();
-
-    // Mostrar información de usuario si está autenticado
     const userEmail = localStorage.getItem('userEmail');
-    if (userEmail) {
+    const userRole = localStorage.getItem('userRole');
+    
+    // Verificar si la página actual es protegida
+    const currentPage = window.location.pathname;
+    
+    // Si está en página protegida sin autenticación
+    if ((currentPage.includes('admin.html') || currentPage.includes('user.html')) && !userEmail) {
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // Si está en admin pero no es admin
+    if (currentPage.includes('admin.html') && userRole !== 'admin') {
+        window.location.href = 'user.html';
+        return;
+    }
+    
+    // Si está autenticado, inicializar según el rol
+    if (userEmail && userRole) {
         setupUserGreeting();
         displaySessionToken();
+        
+        // Llamar función de inicialización del dashboard
+        if (currentPage.includes('admin.html') && window.initializeAdminDashboard) {
+            window.initializeAdminDashboard();
+        } else if (currentPage.includes('user.html') && window.initializeUserDashboard) {
+            window.initializeUserDashboard();
+        }
     }
 
     // Configurar botón de logout si existe
