@@ -167,7 +167,7 @@
         <!-- DASHBOARD CRUD -->
         <div class="dashboard-container">
             <!-- COLUMNA 1: INSERTAR -->
-            <div class="column">
+            <div class="column" id="columna-insertar">
                 <h3>Insertar Información</h3>
                 <div id="insertColumn">
                     <!-- Se llenará con JavaScript -->
@@ -175,7 +175,7 @@
             </div>
 
             <!-- COLUMNA 2: ELIMINAR -->
-            <div class="column">
+            <div class="column" id="columna-eliminar">
                 <h3>Eliminar Información</h3>
                 <div id="deleteColumn">
                     <!-- Se llenará con JavaScript -->
@@ -183,7 +183,7 @@
             </div>
 
             <!-- COLUMNA 3: VISUALIZAR -->
-            <div class="column">
+            <div class="column" id="columna-visualizar">
                 <h3>Visualizar Información</h3>
                 <div id="viewColumn">
                     <!-- Se llenará con JavaScript -->
@@ -248,21 +248,24 @@
                 profileBadge.textContent = 'USUARIO REGULAR';
                 profileBadge.className = 'role-badge role-user';
                 permissionsText.textContent = 'Solo puedes visualizar información';
+                
+                // OCULTAR COMPLETAMENTE LAS COLUMNAS DE INSERTAR Y ELIMINAR
+                document.getElementById('columna-insertar').style.display = 'none';
+                document.getElementById('columna-eliminar').style.display = 'none';
             }
 
             setupUserGreeting();
             displaySessionToken();
 
-            // Configurar columnas
+            // Configurar columnas basado en rol
             if (userRole === 'admin') {
                 setupInsertColumn();
                 setupDeleteColumn();
+                setupViewColumn();
             } else {
-                document.getElementById('insertColumn').innerHTML = '<div class="no-permission">No tienes permiso para insertar</div>';
-                document.getElementById('deleteColumn').innerHTML = '<div class="no-permission">No tienes permiso para eliminar</div>';
+                // Para usuario regular, solo mostrar visualización
+                setupViewColumn();
             }
-
-            setupViewColumn();
 
             // Botón logout
             document.getElementById('logoutBtn').addEventListener('click', handleLogout);
